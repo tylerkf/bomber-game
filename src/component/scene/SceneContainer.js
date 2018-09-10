@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import SceneManager from './SceneManager'
 
-class ThreeContainer extends Component {
+class SceneContainer extends Component {
 	componentDidMount() {
-		this.initScene(this.sceneContainer);
-	}
-
-	initScene(container) {
+		const container = this.sceneContainer
 		const canvas = document.createElement('canvas');
   	container.appendChild(canvas);
 
@@ -15,7 +12,7 @@ class ThreeContainer extends Component {
 		window.onresize = resizeCanvas;
   	resizeCanvas();
 
-  	requestAnimationFrame(this.render);
+  	requestAnimationFrame(update);
 
   	function resizeCanvas() {
 		  canvas.style.width = '100%';
@@ -24,8 +21,8 @@ class ThreeContainer extends Component {
 		  canvas.height = canvas.offsetHeight;
 		}
 
-		function render(time) {
-		  requestAnimationFrame(render);
+		function update(time) {
+		  requestAnimationFrame(update);
 		  sceneManager.update();
 		}
 	}
@@ -37,4 +34,4 @@ class ThreeContainer extends Component {
 	}
 }
 
-export default ThreeContainer;
+export default SceneContainer;
