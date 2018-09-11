@@ -4,7 +4,7 @@ class Model {
   constructor(model) {
     this.mesh = this._getMeshFromModel(model)
 
-    if (this.mesh == undefined) {
+    if (this.mesh === undefined) {
     	// throw error
     }
   }

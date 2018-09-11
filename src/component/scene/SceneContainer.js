@@ -16,7 +16,7 @@ class SceneContainer extends Component {
 
   	function resizeCanvas() {
 		  canvas.style.width = '100%';
-		  canvas.style.height= '100%';
+		  canvas.style.height= '100vh';
 		  canvas.width = canvas.offsetWidth;
 		  canvas.height = canvas.offsetHeight;
 		}
