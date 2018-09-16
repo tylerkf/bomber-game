@@ -2,10 +2,13 @@ class Controls {
   constructor(world, keyMap) {
     this.keyMap = keyMap;
     this.world = world;
+
+    this.onEvent = this.onEvent.bind(this);
+    this.getPress = this.getPress.bind(this);
   }
 
   onEvent(event) {
-    const press = getPress(event);
+    const press = this.getPress(event);
     const action = this.keyMap[press.key];
 
     if (action === undefined) {
@@ -28,7 +31,7 @@ class Controls {
         down = true;
         break;
       case 'keyup':
-        key event.key;
+        key = event.key;
         down = false;
         break;
       case 'mousedown':
@@ -38,12 +41,12 @@ class Controls {
       case 'mouseup':
         key = 'mouse' + event.button.toString();
         down = false;
-        break;
     }
+
+    const press = { key, down };
+    return press;
   }
 
-  const press = { key, down };
-  return press;
 }
 
 export default Controls;
