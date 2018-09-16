@@ -6,7 +6,7 @@ class Box extends Entity {
     super(null);
 
     let geometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
-    let material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+    let material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
     this.mesh = new THREE.Mesh( geometry, material );
   }
 }
