@@ -8,10 +8,20 @@ class World {
 
     this.entities = [];
 
-    testWorld(entity => {
+    testWorld.world(entity => {
       this.entities.push(entity);
       this.scene.add(entity.mesh);
     });
+
+    testWorld.player(entity => {
+      this.entities.push(entity);
+      this.scene.add(entity.mesh);
+      this.player = entity;
+    });
+  }
+
+  onAction(action) {
+    this.player.onAction(action);
   }
 
 	update() {
