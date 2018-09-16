@@ -20,8 +20,8 @@ class World {
     });
   }
 
-  onAction(action) {
-    this.player.onAction(action);
+  onAction(action, stop=false) {
+    this.player.onAction(action, stop);
   }
 
 	update() {
@@ -29,6 +29,10 @@ class World {
 
     for (let i = 0; i < this.entities.length; i++) {
       this.entities[i].update(delta);
+    }
+
+    if (this.player !== undefined) {
+      console.log(this.player.state);
     }
   }
 };

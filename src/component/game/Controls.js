@@ -16,7 +16,7 @@ class Controls {
     }
 
     // perform action
-    this.world.onAction(action)
+    this.world.onAction(action, !press.down);
 
     // send to server
   }

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import Person from './entities/Person';
+import Player from './entities/Player';
 import Box from './entities/Box';
 
 const MARINE_URL = '/models/marine/marine_anims_core.json';
@@ -12,7 +12,7 @@ function world(callback) {
 
 function player(callback) {
 	new THREE.ObjectLoader().load((MARINE_URL), model => {
-		const marine = new Person(model);
+		const marine = new Player(model);
 		marine.mesh.scale.set(0.1,0.1,0.1);
 		callback(marine);
 	});
