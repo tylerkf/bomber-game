@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import SceneContainer from './scene/SceneContainer'
+import GameContainer from './GameContainer'
 
 class App extends Component {
   render() {
     return (
-      <SceneContainer />
+      <GameContainer />
     );
   }
 }

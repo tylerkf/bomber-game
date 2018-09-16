@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import Model from './model';
+import Model from './Model';
 
 class Animated extends Model {
   constructor(model, defaultAnimation=undefined) {
@@ -7,7 +7,7 @@ class Animated extends Model {
 
     this.mixer = new THREE.AnimationMixer(this.mesh);
     this.animations = this.mesh.animations || this.mesh.geometry.animations;
-    
+
     this._animationTargets = {};
     // initialise animations and targets object
     for (let i = 0; i < this.animations.length; i++) {
@@ -33,6 +33,8 @@ class Animated extends Model {
   }
 
   update(delta) {
+    super.update(delta);
+
   	// fade animations
   	let totalWeight = 0;
   	for (let name in this._animationTargets) {

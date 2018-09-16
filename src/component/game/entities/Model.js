@@ -1,8 +1,10 @@
 import * as THREE from 'three';
+import Entity from './Entity';
 
-class Model {
+class Model extends Entity {
   constructor(model) {
-    this.mesh = this._getMeshFromModel(model)
+    super(null);
+    this.mesh = this._getMeshFromModel(model);
 
     if (this.mesh === undefined) {
     	// throw error
@@ -17,7 +19,7 @@ class Model {
 			}
 		});
 
-		return traverseMesh
+		return traverseMesh;
   }
 }
 

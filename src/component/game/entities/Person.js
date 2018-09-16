@@ -1,4 +1,4 @@
-import Animated from './animated';
+import Animated from './Animated';
 
 class Person extends Animated {
 	constructor(model) {
