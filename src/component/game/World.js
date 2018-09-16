@@ -25,7 +25,6 @@ class World {
   }
 
 	update() {
-    console.log(this.entities);
     const delta = this.clock.getDelta();
 
     for (let i = 0; i < this.entities.length; i++) {

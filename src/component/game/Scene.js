@@ -9,7 +9,7 @@ class Scene {
     this.renderer.setPixelRatio(window.devicePixelRatio);
   	this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-    this.camera.position.set(0, 5, 0);
+    this.camera.position.set(0, 10, 0);
     this.camera.rotation.x = -90 * Math.PI / 180;
 
     this.scene.background = new THREE.Color(0x333333);
