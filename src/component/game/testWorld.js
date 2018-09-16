@@ -21,8 +21,6 @@ function world(callback) {
 function player(callback) {
 	new THREE.ObjectLoader().load((MARINE_URL), model => {
 		const marine = new Person(model);
-		marine.addAnimationTarget('run', 1, 0.5);
-		marine.addAnimationTarget('idle', 0, 0.5);
 
 		callback(marine);
 	});
