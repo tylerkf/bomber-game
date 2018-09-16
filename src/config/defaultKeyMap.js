@@ -1,6 +1,6 @@
 export default {
-  'w': 'forwards',
-  'a': 'left',
-  's': 'backwards',
-  'd': 'right'
+  'w': 'walkForwards',
+  'a': 'walkLeft',
+  's': 'walkBackwards',
+  'd': 'walkRight'
 };
