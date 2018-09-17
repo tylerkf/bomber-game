@@ -5,12 +5,31 @@ import Box from './entities/Box';
 const MARINE_URL = '/models/marine/marine_anims_core.json';
 
 function world(callback) {
+
+	generateBoundary(9).forEach((point) => {
+		let box = new Box();
+		box.setPosition(point);
+		callback(box);
+	})
+
 	const box1 = new Box();
-	box1.setPosition(new THREE.Vector3(1,0,0));
+	box1.setPosition(new THREE.Vector3(0,0,-1));
 	const box2 = new Box();
 	box2.setPosition(new THREE.Vector3(0,0,1));
 	callback(box1);
 	callback(box2);
+}
+
+function generateBoundary(length) {
+	let half = Math.floor(length/2);
+	let points = [];
+	for(let dist = 0; dist < length; dist++) {
+		points.push(new THREE.Vector3(-half + dist, 0, -half));
+		points.push(new THREE.Vector3(-half + dist, 0, half));
+		points.push(new THREE.Vector3(-half, 0, -half+dist));
+		points.push(new THREE.Vector3(half, 0, -half+dist));
+	}
+	return points;
 }
 
 function player(callback) {
