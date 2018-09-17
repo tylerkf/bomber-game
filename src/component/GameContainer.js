@@ -36,10 +36,12 @@ class GameContainer extends Component {
 	}
 
 	resizeCanvas() {
-	  this.canvas.style.width = '100%';
-	  this.canvas.style.height= '100vh';
-	  this.canvas.width = this.canvas.offsetWidth;
-	  this.canvas.height = this.canvas.offsetHeight;
+		if (this.canvas !== undefined) {
+		  this.canvas.style.width = '100%';
+		  this.canvas.style.height= '100vh';
+		  this.canvas.width = this.canvas.offsetWidth;
+		  this.canvas.height = this.canvas.offsetHeight;
+		}
 	}
 
 	update(time) {

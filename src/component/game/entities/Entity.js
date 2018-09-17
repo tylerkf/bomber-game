@@ -1,7 +1,9 @@
+import * as THREE from 'three';
+
 class Entity {
   constructor() {
     this.mesh;
-    this.position;
+    this.position = new THREE.Vector3(0, 0, 0);
   }
 
   setPosition(position) {

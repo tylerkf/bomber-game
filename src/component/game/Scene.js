@@ -11,6 +11,7 @@ class Scene {
 
     this.camera.position.set(0, 5, 0);
     this.camera.rotation.x = -90 * Math.PI / 180;
+    this.camera.rotation.z = -90 * Math.PI / 180;
 
     this.scene.background = new THREE.Color(0x333333);
     this.scene.add(new THREE.AmbientLight(0xffffff));

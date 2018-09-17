@@ -1,15 +1,32 @@
+const DOUBLE_PRESS_TIME = 300;
+
 class Controls {
   constructor(world, keyMap) {
     this.keyMap = keyMap;
     this.world = world;
 
+    this.lastPressDown = {
+      key: '',
+      timeStamp: 0
+    };
+
     this.onEvent = this.onEvent.bind(this);
-    this.getPress = this.getPress.bind(this);
   }
 
   onEvent(event) {
+    if (event.repeat) {
+      return;
+    }
+
     const press = this.getPress(event);
-    const action = this.keyMap[press.key];
+
+    // get action
+    let action = '';
+    if (press.double && this.keyMap['d' + press.key]) {
+      action = this.keyMap['d' + press.key]
+    } else {
+      action = this.keyMap[press.key];
+    }
 
     if (action === undefined) {
       return;
@@ -24,6 +41,7 @@ class Controls {
   getPress(event) {
     let key = '';
     let down = false;
+    let double = false;
 
     switch (event.type) {
       case 'keydown':
@@ -35,15 +53,28 @@ class Controls {
         down = false;
         break;
       case 'mousedown':
-        key = 'mouse' + event.button.toString();
+        key = 'm' + event.button.toString();
         down = true;
         break;
       case 'mouseup':
-        key = 'mouse' + event.button.toString();
+        key = 'm' + event.button.toString();
         down = false;
+        break;
+      default:
+        ;
     }
 
-    const press = { key, down };
+    // detect double press down
+    if (down) {
+      if (this.lastPressDown.key === key
+        && event.timeStamp - this.lastPressDown.timeStamp < DOUBLE_PRESS_TIME) {
+          double = true;
+      }
+      this.lastPressDown.key = key;
+      this.lastPressDown.timeStamp = event.timeStamp;
+    }
+
+    const press = { key, down, double };
     return press;
   }
 

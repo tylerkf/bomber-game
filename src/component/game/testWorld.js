@@ -17,6 +17,7 @@ function player(callback) {
 	new THREE.ObjectLoader().load((MARINE_URL), model => {
 		const marine = new Player(model);
 		marine.mesh.scale.set(0.008,0.008,0.008);
+		marine.mesh.rotation.y = -90 * Math.PI / 180;
 		callback(marine);
 	});
 }

@@ -28,20 +28,23 @@ class Animated extends Model {
   }
 
   setAnimationWeights(weights) {
-    const animationNames = Object.keys(weights)
-
     let totalChange = 0;
-    for (let i = 0; i < animationNames.length; i++) {
-      const name = animationNames[i];
+    for (let i = 0; i < this.animations.length; i++) {
+      const name = this.animations[i].name;
     	const action = this.mixer.clipAction(name);
 
-      totalChange += weights[name] - action.getEffectiveWeight();
+      let weight = 0;
 
-      action.setEffectiveWeight(weights[name]);
+      if (weights[name] !== undefined) {
+        weight = weights[name];
+      }
+
+      totalChange += weight - action.getEffectiveWeight();
+      action.setEffectiveWeight(weight);
     }
 
     // prevents T-posing
-  	if (totalChange != 0) {
+  	if (totalChange !== 0) {
 			const defaultAction = this.mixer.clipAction(this.defaultAnimation);
 			const newWeight = defaultAction.getEffectiveWeight() - totalChange;
 			defaultAction.setEffectiveWeight(newWeight);

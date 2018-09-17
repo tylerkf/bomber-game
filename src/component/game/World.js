@@ -25,7 +25,6 @@ class World {
   }
 
 	update() {
-    console.log(this.entities);
     const delta = this.clock.getDelta();
 
     for (let i = 0; i < this.entities.length; i++) {
@@ -33,7 +32,8 @@ class World {
     }
 
     if (this.player !== undefined) {
-      console.log(this.player.state);
+      this.scene.camera.position.x = this.player.position.x;
+      this.scene.camera.position.z = this.player.position.z;
     }
   }
 };
