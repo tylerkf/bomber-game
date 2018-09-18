@@ -3,22 +3,24 @@ import testWorld from './testWorld';
 import Collisions from './Collisions';
 
 class World {
-  constructor(scene) {
+  constructor(scene, controls, assets) {
     this.clock = new THREE.Clock();
     this.scene = scene;
+    this.controls = controls;
+    this.assets = assets;
 
     this.collisions = new Collisions();
 
     this.entities = [];
 
-    testWorld.world(entity => {
+    testWorld.world((entity, assets) => {
       this.entities.push(entity);
       console.log(entity.position);
       this.collisions.addBox('id', entity.position.x, entity.position.y);
       this.scene.add(entity.mesh);
     });
 
-    testWorld.player(entity => {
+    testWorld.player((entity, assets) => {
       this.entities.push(entity);
       entity.collisions = this.collisions;
       this.scene.add(entity.mesh);

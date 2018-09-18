@@ -38,7 +38,6 @@ class Player extends Animated {
   }
 
 	onAction(action, stop) {
-    console.log(action, stop);
     if (!stop) {
       switch (action) {
         case 'walkForwards':

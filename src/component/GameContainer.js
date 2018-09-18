@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import defaultKeyMap from '../config/defaultKeyMap';
+import assetConfig from '../config/assets';
 import Controls from './game/Controls';
 import World from './game/World';
 import Scene from './game/Scene';
@@ -23,8 +24,9 @@ class GameContainer extends Component {
 		window.onresize = this.resizeCanvas;
   	this.resizeCanvas();
 
+		this.assets = new AssetLoader(assetConfig);
 		this.scene = new Scene(this.canvas);
-		this.world = new World(this.scene, this.controls);
+		this.world = new World(this.scene, this.controls, this.assets);
 		this.controls = new Controls(this.world, defaultKeyMap);
 
 		window.addEventListener('keydown', this.controls.onEvent);
