@@ -3,13 +3,13 @@ export default {
     'Marine': {
       'url': '/assets/marine/marine_anims_core.json'
     }
-  };
+  },
   'textures': {
     'Wood': {
       'url': '/assets/box/wood_texture.jpg'
-    }
+    },
     'Stone': {
       'url': '/assets/box/stone.jpg'
     }
-  };
+  }
 };

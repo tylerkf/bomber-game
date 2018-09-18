@@ -5,10 +5,10 @@ const IDLE = 'idle';
 const WALK = 'walk';
 const RUN = 'run';
 
-const FORWARDS = new THREE.Vector3(1, 0, 0);
-const LEFT = new THREE.Vector3(0, 0, -1);
-const BACKWARDS = new THREE.Vector3(-1, 0, 0);
-const RIGHT = new THREE.Vector3(0, 0, 1);
+const FORWARDS = new THREE.Vector3(0, 1, 0);
+const LEFT = new THREE.Vector3(-1, 0, 0);
+const BACKWARDS = new THREE.Vector3(0, -1, 0);
+const RIGHT = new THREE.Vector3(1, 0, 0);
 
 const ACCELERATIONS = {
   'idle': 5.,

@@ -12,9 +12,9 @@ function world(callback, assets) {
 		callback(box);
 	})
 	const box1 = new Box(texture);
-	box1.setPosition(new THREE.Vector3(0,0,-1));
+	box1.setPosition(new THREE.Vector3(0, -1, 0));
 	const box2 = new Box(texture);
-	box2.setPosition(new THREE.Vector3(0,0,1));
+	box2.setPosition(new THREE.Vector3(0, 1, 0));
 	callback(box1);
 	callback(box2);
 }
@@ -23,19 +23,21 @@ function generateBoundary(length) {
 	let half = Math.floor(length/2);
 	let points = [];
 	for(let dist = 0; dist < length; dist++) {
-		points.push(new THREE.Vector3(-half + dist, 0, -half));
-		points.push(new THREE.Vector3(-half + dist, 0, half));
-		points.push(new THREE.Vector3(-half, 0, -half+dist));
-		points.push(new THREE.Vector3(half, 0, -half+dist));
+		points.push(new THREE.Vector3(-half + dist, -half, 0));
+		points.push(new THREE.Vector3(-half + dist, half, 0));
+		points.push(new THREE.Vector3(-half, -half+dist, 0));
+		points.push(new THREE.Vector3(half, -half+dist, 0));
 	}
 	return points;
 }
 
 function player(callback, assets) {
-	assets.getModel('Marine', model => {
+	//assets.getModel('Marine', model => {
+	new THREE.ObjectLoader().load((MARINE_URL), model => {
 		const marine = new Player(model);
 		marine.mesh.scale.set(0.008,0.008,0.008);
-		marine.mesh.rotation.y = -90 * Math.PI / 180;
+		marine.mesh.rotation.x = 90 * Math.PI / 180;
+		//marine.mesh.rotation.y = -90 * Math.PI / 180;
 		callback(marine);
 	});
 }

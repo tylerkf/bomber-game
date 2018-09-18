@@ -41,7 +41,7 @@ class World {
 
     if (this.player !== undefined) {
       this.scene.camera.position.x = this.player.position.x;
-      this.scene.camera.position.z = this.player.position.z;
+      this.scene.camera.position.y = this.player.position.y;
     }
   }
 };
