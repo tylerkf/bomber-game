@@ -24,8 +24,12 @@ const SPEEDS = {
 };
 
 class Player extends Animated {
-  constructor(model) {
+  constructor(model, collisions) {
     super(model);
+
+    this.collisions;
+    this.boundWidth = 0.5;
+    this.boundHeight = 0.5;
 
     // either IDLE, WALK or RUN
     this.state = IDLE;
@@ -158,20 +162,37 @@ class Player extends Animated {
     }
 
     const speed = this.velocity.length();
+
     // update position
     if (speed !== 0) {
       const change = this.velocity.clone()
       change.multiplyScalar(delta)
 
       const newPosition = this.position.clone().add(change)
-      this.setPosition(newPosition);
+
+      // check collisions
+      let hasCollided = false;
+      if (this.collisions) {
+        hasCollided = this.collisions.hasCollided(
+          newPosition.x,
+          newPosition.y,
+          this.boundWidth,
+          this.boundHeight,
+          0
+        );
+        console.log(hasCollided);
+      }
+
+      // update position if not collided
+      if (!hasCollided) {
+        this.setPosition(newPosition);
+      }
     }
 
     // update animation weights
     if (speed !== 0) {
       // TODO - add more animations
       const weights = this._velocityToAnimationWeights(this.velocity);
-      console.log(weights);
       super.setAnimationWeights(weights);
     } else {
       super.setAnimationWeights({});
