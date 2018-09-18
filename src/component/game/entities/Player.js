@@ -34,7 +34,6 @@ class Player extends Animated {
   }
 
 	onAction(action, stop) {
-    console.log(action, stop);
     if (!stop) {
       switch (action) {
         case 'walkForwards':
@@ -171,7 +170,6 @@ class Player extends Animated {
     if (speed !== 0) {
       // TODO - add more animations
       const weights = this._velocityToAnimationWeights(this.velocity);
-      console.log(weights);
       super.setAnimationWeights(weights);
     } else {
       super.setAnimationWeights({});

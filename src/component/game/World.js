@@ -2,18 +2,20 @@ import * as THREE from 'three';
 import testWorld from './testWorld';
 
 class World {
-  constructor(scene) {
+  constructor(scene, controls, assets) {
     this.clock = new THREE.Clock();
     this.scene = scene;
+    this.controls = controls;
+    this.assets = assets;
 
     this.entities = [];
 
-    testWorld.world(entity => {
+    testWorld.world((entity, assets) => {
       this.entities.push(entity);
       this.scene.add(entity.mesh);
     });
 
-    testWorld.player(entity => {
+    testWorld.player((entity, assets) => {
       this.entities.push(entity);
       this.scene.add(entity.mesh);
       this.player = entity;
