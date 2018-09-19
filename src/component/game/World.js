@@ -15,14 +15,11 @@ class World {
 
     testWorld.world((entity, assets) => {
       this.entities.push(entity);
-      console.log(entity.position);
-      this.collisions.addBox('id', entity.position.x, entity.position.y);
       this.scene.add(entity.mesh);
     });
 
     testWorld.player((entity, assets) => {
       this.entities.push(entity);
-      entity.collisions = this.collisions;
       this.scene.add(entity.mesh);
       this.player = entity;
     });
@@ -43,6 +40,8 @@ class World {
       this.scene.camera.position.x = this.player.position.x;
       this.scene.camera.position.y = this.player.position.y;
     }
+
+    this.collisions.run(this.entities, delta);
   }
 };
 

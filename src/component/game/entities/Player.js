@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import Animated from './Animated';
+import Collisions from '../Collisions';
 
 const IDLE = 'idle';
 const WALK = 'walk';
@@ -27,9 +28,9 @@ class Player extends Animated {
   constructor(model, collisions) {
     super(model);
 
-    this.collisions;
-    this.boundWidth = 0.5;
-    this.boundHeight = 0.5;
+    this.collisionClass = Collisions.classes.moving;
+    this.width = 0.5;
+    this.height = 0.2;
 
     // either IDLE, WALK or RUN
     this.state = IDLE;
@@ -104,7 +105,7 @@ class Player extends Animated {
     const targetDirection = this._velocityToDirection(this.targetVelocity)
 
     const dot = targetDirection.dot(direction);
-    if (dot >=0) {
+    if (dot >= 0) {
       targetDirection.sub(direction);
       if (this.state !== RUN && targetDirection.length() !== 0) {
         this.state = WALK ;
@@ -168,24 +169,7 @@ class Player extends Animated {
       change.multiplyScalar(delta)
 
       const newPosition = this.position.clone().add(change)
-
-      // check collisions
-      let hasCollided = false;
-      if (this.collisions) {
-        hasCollided = this.collisions.hasCollided(
-          newPosition.x,
-          newPosition.y,
-          this.boundWidth,
-          this.boundHeight,
-          0
-        );
-        console.log(hasCollided);
-      }
-
-      // update position if not collided
-      if (!hasCollided) {
-        this.setPosition(newPosition);
-      }
+      this.setPosition(newPosition);
     }
 
     // update animation weights
@@ -195,6 +179,22 @@ class Player extends Animated {
       super.setAnimationWeights(weights);
     } else {
       super.setAnimationWeights({});
+    }
+
+    // update rotation
+    if (speed !== 0) {
+      let radians = Math.PI / 2;
+      if (this.velocity.x !== 0) {
+        radians += Math.atan(this.velocity.y / this.velocity.x);
+      } else {
+        radians -= Math.PI / 2;
+      }
+
+      if (this.velocity.x > 0 || this.velocity.y < 0) {
+        radians += Math.PI;
+      }
+
+      this.mesh.rotation.y = radians;
     }
 
     super.update(delta);

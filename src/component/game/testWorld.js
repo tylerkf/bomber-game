@@ -5,7 +5,7 @@ import Box from './entities/Box';
 const MARINE_URL = '/assets/marine/marine_anims_core.json';
 
 function world(callback, assets) {
-	let texture = new THREE.TextureLoader().load('models/box/wood_texture.jpg');
+	let texture = new THREE.TextureLoader().load('/assets/box/wood_texture.jpg');
 	generateBoundary(9).forEach((point) => {
 		let box = new Box(texture);
 		box.setPosition(point);
