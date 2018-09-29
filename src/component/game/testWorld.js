@@ -13,13 +13,13 @@ function world(callback, assets) {
 		callback(box1);
 		callback(box2);
 	});
-
-	assets.getTexture('Stone', texture => {
-		generateBoundary(9).forEach((point) => {
+	
+	generateBoundary(9).forEach((point) => {
+		assets.getTexture('Stone', texture => {
 			let box = new Box(texture);
 			box.setPosition(point);
 			callback(box);
-		})
+		});
 	});
 
 	assets.getTexture('Grid', texture => {
