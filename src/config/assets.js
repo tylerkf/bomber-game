@@ -10,6 +10,9 @@ export default {
     },
     'Stone': {
       'url': '/assets/box/stone.jpg'
+    },
+    'Grid': {
+      'url': '/assets/grid.jpg'
     }
   }
 };

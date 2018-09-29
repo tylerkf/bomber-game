@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import Player from './entities/Player';
 import Box from './entities/Box';
+import Bomb from './entities/Bomb';
+import Floor from './entities/Floor';
 
 function world(callback, assets) {
 	assets.getTexture('Wood', texture => {
@@ -19,6 +21,22 @@ function world(callback, assets) {
 			callback(box);
 		})
 	});
+
+	assets.getTexture('Grid', texture => {
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.repeat.set( 4, 4 );
+		const floor = new Floor(texture, 7, 7);
+		floor.setPosition(new THREE.Vector3(0, 0, -0.5));
+		callback(floor);
+	})
+
+	let bomb1 = new Bomb(1);
+	bomb1.setPosition(new THREE.Vector3(3, -2, 0));
+	let bomb2 = new Bomb(2);
+	bomb2.setPosition(new THREE.Vector3(-2, 3, 0));
+	callback(bomb1);
+	callback(bomb2);
 }
 
 function generateBoundary(length) {
