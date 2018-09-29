@@ -2,21 +2,23 @@ import * as THREE from 'three';
 import Player from './entities/Player';
 import Box from './entities/Box';
 
-const MARINE_URL = '/assets/marine/marine_anims_core.json';
-
 function world(callback, assets) {
-	let texture = new THREE.TextureLoader().load('/assets/box/wood_texture.jpg');
-	generateBoundary(9).forEach((point) => {
-		let box = new Box(texture);
-		box.setPosition(point);
-		callback(box);
-	})
-	const box1 = new Box(texture);
-	box1.setPosition(new THREE.Vector3(0, -1, 0));
-	const box2 = new Box(texture);
-	box2.setPosition(new THREE.Vector3(0, 1, 0));
-	callback(box1);
-	callback(box2);
+	assets.getTexture('Wood', texture => {
+		const box1 = new Box(texture);
+		box1.setPosition(new THREE.Vector3(0, -1, 0));
+		const box2 = new Box(texture);
+		box2.setPosition(new THREE.Vector3(0, 1, 0));
+		callback(box1);
+		callback(box2);
+	});
+
+	assets.getTexture('Stone', texture => {
+		generateBoundary(9).forEach((point) => {
+			let box = new Box(texture);
+			box.setPosition(point);
+			callback(box);
+		})
+	});
 }
 
 function generateBoundary(length) {
@@ -32,8 +34,7 @@ function generateBoundary(length) {
 }
 
 function player(callback, assets) {
-	//assets.getModel('Marine', model => {
-	new THREE.ObjectLoader().load((MARINE_URL), model => {
+	assets.getModel('Marine', model => {
 		const marine = new Player(model);
 		marine.mesh.scale.set(0.008,0.008,0.008);
 		marine.mesh.rotation.x = 90 * Math.PI / 180;

@@ -4,6 +4,7 @@ import assetConfig from '../config/assets';
 import Controls from './game/Controls';
 import World from './game/World';
 import Scene from './game/Scene';
+import AssetLoader from './game/AssetLoader'
 
 class GameContainer extends Component {
 	constructor(props) {
@@ -24,7 +25,7 @@ class GameContainer extends Component {
 		window.onresize = this.resizeCanvas;
   	this.resizeCanvas();
 
-		//this.assets = new AssetLoader(assetConfig);
+		this.assets = new AssetLoader(assetConfig);
 		this.scene = new Scene(this.canvas);
 		this.world = new World(this.scene, this.controls, this.assets);
 		this.controls = new Controls(this.world, defaultKeyMap);
