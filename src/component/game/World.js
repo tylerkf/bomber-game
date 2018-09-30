@@ -17,14 +17,14 @@ class World {
     testWorld.world((entity, assets) => {
       this.entities.push(entity);
       this.scene.add(entity.mesh);
-    });
+    }, assets);
 
     testWorld.player((entity, assets) => {
       this.entities.push(entity);
       this.animated.push(entity);
       this.scene.add(entity.mesh);
       this.player = entity;
-    });
+    }, assets);
   }
 
   onAction(action, stop=false) {

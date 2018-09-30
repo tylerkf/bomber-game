@@ -1,20 +1,42 @@
 import * as THREE from 'three';
 import Player from './entities/Player';
 import Box from './entities/Box';
-
-const MARINE_URL = '/assets/marine/marine_anims_core.json';
+import Bomb from './entities/Bomb';
+import Floor from './entities/Floor';
 
 function world(callback, assets) {
-	let texture = new THREE.TextureLoader().load('/assets/box/wood_texture.jpg');
-	generateBoundary(9).forEach((point) => {
-		let box = new Box(point, texture);
-		callback(box);
+	assets.getTexture('Wood', texture => {
+		const box1 = new Box(texture);
+		box1.setPosition(new THREE.Vector3(0, -1, 0));
+		const box2 = new Box(texture);
+		box2.setPosition(new THREE.Vector3(0, 1, 0));
+		callback(box1);
+		callback(box2);
 	});
 
-	const box1 = new Box(new THREE.Vector3(0, -1, 0), texture);
-	callback(box1);
-	const box2 = new Box(new THREE.Vector3(0, 1, 0), texture);
-	callback(box2);
+	generateBoundary(9).forEach((point) => {
+		assets.getTexture('Stone', texture => {
+			let box = new Box(texture);
+			box.setPosition(point);
+			callback(box);
+		});
+	});
+
+	assets.getTexture('Grid', texture => {
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.repeat.set( 4, 4 );
+		const floor = new Floor(texture, 7, 7);
+		floor.setPosition(new THREE.Vector3(0, 0, -0.5));
+		callback(floor);
+	})
+
+	let bomb1 = new Bomb(1);
+	bomb1.setPosition(new THREE.Vector3(3, -2, 0));
+	let bomb2 = new Bomb(2);
+	bomb2.setPosition(new THREE.Vector3(-2, 3, 0));
+	callback(bomb1);
+	callback(bomb2);
 }
 
 function generateBoundary(length) {
@@ -30,9 +52,8 @@ function generateBoundary(length) {
 }
 
 function player(callback, assets) {
-	//assets.getModel('Marine', model => {
-	new THREE.ObjectLoader().load((MARINE_URL), model => {
-		const marine = new Player(new THREE.Vector3, model);
+	assets.getModel('Marine', model => {
+		const marine = new Player(model);
 		marine.mesh.scale.set(0.008,0.008,0.008);
 		marine.mesh.rotation.x = 90 * Math.PI / 180;
 		callback(marine);
