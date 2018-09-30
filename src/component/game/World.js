@@ -12,6 +12,7 @@ class World {
     this.collisions = new Collisions();
 
     this.entities = [];
+    this.animated = [];
 
     testWorld.world((entity, assets) => {
       this.entities.push(entity);
@@ -20,6 +21,7 @@ class World {
 
     testWorld.player((entity, assets) => {
       this.entities.push(entity);
+      this.animated.push(entity);
       this.scene.add(entity.mesh);
       this.player = entity;
     });
@@ -32,6 +34,15 @@ class World {
 	update() {
     const delta = this.clock.getDelta();
 
+    // update velocities
+    for (let i = 0; i < this.animated.length; i++) {
+      this.animated[i].updateVelocity(delta);
+    }
+
+    // check collisions
+    this.collisions.run(this.entities, delta);
+
+    // update entities
     for (let i = 0; i < this.entities.length; i++) {
       this.entities[i].update(delta);
     }
@@ -40,8 +51,6 @@ class World {
       this.scene.camera.position.x = this.player.position.x;
       this.scene.camera.position.y = this.player.position.y;
     }
-
-    this.collisions.run(this.entities, delta);
   }
 };
 

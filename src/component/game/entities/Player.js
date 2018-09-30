@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import Animated from './Animated';
 import Collisions from '../Collisions';
+import SAT from 'sat';
 
 const IDLE = 'idle';
 const WALK = 'walk';
@@ -25,12 +26,11 @@ const SPEEDS = {
 };
 
 class Player extends Animated {
-  constructor(model, collisions) {
-    super(model);
+  constructor(position, model, collisions) {
+    super(position, model);
 
     this.collisionClass = Collisions.classes.moving;
-    this.width = 0.5;
-    this.height = 0.2;
+    this.collisionBounds = Collisions.box(position, 0.5, 0.2);
 
     // either IDLE, WALK or RUN
     this.state = IDLE;
@@ -146,7 +146,7 @@ class Player extends Animated {
     return weights;
   }
 
-  update(delta) {
+  updateVelocity(delta) {
     // update velocity
     if (!this.velocity.equals(this.targetVelocity)) {
       const acceleration = ACCELERATIONS[this.state];
@@ -160,7 +160,9 @@ class Player extends Animated {
         this.velocity.add(changeDirection.multiplyScalar(acceleration * delta));
       }
     }
+  }
 
+  update(delta) {
     const speed = this.velocity.length();
 
     // update position
@@ -180,6 +182,9 @@ class Player extends Animated {
     } else {
       super.setAnimationWeights({});
     }
+
+    // TODO - fix rotation jumping
+    // TODO - seperate velocity and mesh animation
 
     // update rotation
     if (speed !== 0) {
