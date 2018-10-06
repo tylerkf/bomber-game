@@ -1,17 +1,18 @@
 import * as THREE from 'three';
 import Entity from './Entity';
-import Collisions from '../Collisions';
+import StaticCollider from '../Collision/StaticCollider';
 
 class Box extends Entity {
-  constructor(position, texture) {
-    super(position);
+  constructor(x, y, texture) {
+    super();
 
-    this.collisionClass = Collisions.classes.box;
-    this.collisionBounds = Collisions.box(position, 1, 1);
+    this.collider = new StaticCollider(x, y, 1, 1);
 
     let geometry = new THREE.BoxBufferGeometry(1, 1, 1);
     let material = new THREE.MeshLambertMaterial({map: texture});
-    this.mesh = new THREE.Mesh( geometry, material );
+    this.mesh = new THREE.Mesh(geometry, material);
+
+    this.setPosition(new THREE.Vector3(x, y, 0.5));
   }
 }
 

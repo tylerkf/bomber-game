@@ -6,18 +6,15 @@ import Floor from './entities/Floor';
 
 function world(callback, assets) {
 	assets.getTexture('Wood', texture => {
-		const box1 = new Box(texture);
-		box1.setPosition(new THREE.Vector3(0, -1, 0));
-		const box2 = new Box(texture);
-		box2.setPosition(new THREE.Vector3(0, 1, 0));
+		const box1 = new Box(0, -1, texture);
 		callback(box1);
+		const box2 = new Box(0, 1, texture);
 		callback(box2);
 	});
 
 	generateBoundary(9).forEach((point) => {
 		assets.getTexture('Stone', texture => {
-			let box = new Box(texture);
-			box.setPosition(point);
+			let box = new Box(point.x, point.y, texture);
 			callback(box);
 		});
 	});
@@ -26,16 +23,17 @@ function world(callback, assets) {
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
 		texture.repeat.set( 4, 4 );
-		const floor = new Floor(texture, 7, 7);
+		const floor = new Floor(7, 7, texture);
 		floor.setPosition(new THREE.Vector3(0, 0, -0.5));
 		callback(floor);
 	})
 
-	let bomb1 = new Bomb(1);
+	const bomb1 = new Bomb(1);
 	bomb1.setPosition(new THREE.Vector3(3, -2, 0));
-	let bomb2 = new Bomb(2);
-	bomb2.setPosition(new THREE.Vector3(-2, 3, 0));
 	callback(bomb1);
+
+	const bomb2 = new Bomb(2);
+	bomb2.setPosition(new THREE.Vector3(-2, 3, 0));
 	callback(bomb2);
 }
 

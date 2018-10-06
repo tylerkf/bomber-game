@@ -1,12 +1,9 @@
 import * as THREE from 'three';
 import Entity from './Entity';
-import Collisions from '../Collisions';
 
 class Bomb extends Entity {
   constructor(level = 1) {
-    super(null);
-
-    this.collisionClass = Collisions.classes.box;
+    super();
 
     let geometry = new THREE.SphereGeometry( 0.5, 13, 13 );
     let material;

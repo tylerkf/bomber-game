@@ -1,16 +1,15 @@
 import * as THREE from 'three';
 import Entity from './Entity';
-import Collisions from '../Collisions';
 
 class Floor extends Entity {
-  constructor(texture, width, height) {
-    super(null);
+  constructor(width, height, texture) {
+    super();
 
-    let geometry = new THREE.PlaneGeometry( width, height );
-    let material = new THREE.MeshLambertMaterial({map: texture});
-    
+    let geometry = new THREE.PlaneGeometry(width, height);
+    let material = new THREE.MeshLambertMaterial({ map: texture });
 
-    this.mesh = new THREE.Mesh( geometry, material );
+
+    this.mesh = new THREE.Mesh(geometry, material);
   }
 }
 

@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import Entity from './Entity';
 
 class Model extends Entity {
-  constructor(position, model) {
-    super(position, null);
+  constructor(model) {
+    super();
     this.mesh = this._getMeshFromModel(model);
 
     if (this.mesh === undefined) {

@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import Model from './Model';
 
 class Animated extends Model {
-  constructor(position, model, defaultAnimation=undefined) {
-    super(position, model);
+  constructor(model, defaultAnimation=undefined) {
+    super(model);
 
     this.mixer = new THREE.AnimationMixer(this.mesh);
     this.animations = this.mesh.animations || this.mesh.geometry.animations;

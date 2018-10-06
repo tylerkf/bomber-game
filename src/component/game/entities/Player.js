@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import Animated from './Animated';
-import Collisions from '../Collisions';
+import MovingCollider from '../Collision/MovingCollider';
 import SAT from 'sat';
 
 const IDLE = 'idle';
@@ -16,7 +16,6 @@ const ACCELERATIONS = {
   'idle': 5.,
   'walk': 5.,
   'run': 8.
-
 };
 
 const SPEEDS = {
@@ -25,17 +24,33 @@ const SPEEDS = {
   'run': 4
 };
 
-class Player extends Animated {
-  constructor(position, model, collisions) {
-    super(position, model);
+const ANGULAR_VELOCITY = 6.;
 
-    this.collisionClass = Collisions.classes.moving;
-    this.collisionBounds = Collisions.box(position, 0.5, 0.2);
+class Player extends Animated {
+  constructor(model, collisions) {
+    super(model);
+
+    this.collider = new MovingCollider(0.4, 0.2);
 
     // either IDLE, WALK or RUN
     this.state = IDLE;
     this.velocity = new THREE.Vector3();
     this.targetVelocity = new THREE.Vector3();
+  }
+
+  onCollision(overlapN, overlapV) {
+    const newPosition = this.position.clone();
+    newPosition.x -= overlapV.x;
+    newPosition.y -= overlapV.y;
+    this.setPosition(newPosition);
+
+    if (overlapN.x != 0) {
+      this.velocity.x = 0;
+    }
+
+    if (overlapN.y != 0) {
+      this.velocity.y = 0;
+    }
   }
 
 	onAction(action, stop) {
@@ -162,15 +177,55 @@ class Player extends Animated {
     }
   }
 
+  updateAngle(delta) {
+    let targetAngle = 0;
+
+    // get angle correct in [-pi/2, pi/2]
+    if (this.velocity.x !== 0) {
+      targetAngle += Math.atan(this.velocity.y / this.velocity.x);
+    } else {
+      targetAngle += Math.sign(this.velocity.y) * Math.PI / 2;
+    }
+
+    // flip if in outside of [-pi/2, pi/2]
+    if (this.velocity.x < 0) {
+      if (targetAngle > Math.PI / 2) {
+        targetAngle -= Math.PI;
+      } else {
+        targetAngle += Math.PI;
+      }
+    }
+
+    // correct for THREE js
+    targetAngle -= Math.PI / 2;
+
+    const difference = Math.abs(targetAngle - this.angle)
+
+    if (difference < ANGULAR_VELOCITY * delta
+      || 2 * Math.PI - difference < ANGULAR_VELOCITY * delta) {
+      this.setAngle(targetAngle);
+    } else {
+      let change;
+      if (difference < 2 * Math.PI - difference) {
+        change = Math.sign(targetAngle - this.angle) * ANGULAR_VELOCITY * delta;
+      } else {
+        change = - Math.sign(targetAngle - this.angle) * ANGULAR_VELOCITY * delta;
+      }
+      this.setAngle(this.angle + change);
+    }
+  }
+
   update(delta) {
+    this.updateVelocity(delta);
+
     const speed = this.velocity.length();
 
     // update position
     if (speed !== 0) {
-      const change = this.velocity.clone()
-      change.multiplyScalar(delta)
+      const change = this.velocity.clone();
+      change.multiplyScalar(delta);
 
-      const newPosition = this.position.clone().add(change)
+      const newPosition = this.position.clone().add(change);
       this.setPosition(newPosition);
     }
 
@@ -183,24 +238,14 @@ class Player extends Animated {
       super.setAnimationWeights({});
     }
 
-    // TODO - fix rotation jumping
     // TODO - seperate velocity and mesh animation
 
     // update rotation
     if (speed !== 0) {
-      let radians = Math.PI / 2;
-      if (this.velocity.x !== 0) {
-        radians += Math.atan(this.velocity.y / this.velocity.x);
-      } else {
-        radians -= Math.PI / 2;
-      }
-
-      if (this.velocity.x > 0 || this.velocity.y < 0) {
-        radians += Math.PI;
-      }
-
-      this.mesh.rotation.y = radians;
+      this.updateAngle(delta);
     }
+
+    this.collider.updateBounds(this.position.x, this.position.y, this.angle);
 
     super.update(delta);
   }
