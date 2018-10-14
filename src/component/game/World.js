@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import testWorld from './testWorld';
-import CollisionEngine from './Collision/CollisionEngine';
+import testWorld from './utilities/Test/testWorld';
+import CollisionEngine from './utilities/Collision/CollisionEngine';
 
 class World {
   constructor(scene, controls, assets) {

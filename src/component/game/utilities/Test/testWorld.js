@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import Player from './entities/Player';
-import Box from './entities/Box';
-import Bomb from './entities/Bomb';
-import Floor from './entities/Floor';
+import Player from '../../entities/Player';
+import Box from '../../entities/Box';
+import Bomb from '../../entities/Bomb';
+import Floor from '../../entities/Floor';
 
 function world(callback, assets) {
 	assets.getTexture('Wood', texture => {
@@ -24,7 +24,7 @@ function world(callback, assets) {
 		texture.wrapT = THREE.RepeatWrapping;
 		texture.repeat.set( 4, 4 );
 		const floor = new Floor(7, 7, texture);
-		floor.setPosition(new THREE.Vector3(0, 0, -0.5));
+		floor.setPosition(new THREE.Vector3(0, 0, 0));
 		callback(floor);
 	})
 

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import Entity from './Entity';
-import StaticCollider from '../Collision/StaticCollider';
+import StaticCollider from '../utilities/Collision/StaticCollider';
 
 class Box extends Entity {
   constructor(x, y, texture) {

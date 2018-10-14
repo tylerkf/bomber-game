@@ -4,3 +4,20 @@ body {
   font-family: sans-serif;
   overflow: hidden;
 }
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 250px;
+  padding: 6px;
+
+  background: rgba(0,0,0,0.5);
+  color: white;
+}
+.overlay > form > p {
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
+.overlay > form > input {
+  margin-bottom: 6px;
+}

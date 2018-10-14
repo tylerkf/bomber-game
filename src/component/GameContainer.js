@@ -4,7 +4,8 @@ import assetConfig from '../config/assets';
 import Controls from './game/Controls';
 import World from './game/World';
 import Scene from './game/Scene';
-import AssetLoader from './game/AssetLoader'
+import Client from './game/Client';
+import AssetLoader from './game/utilities/Asset/AssetLoader'
 
 class GameContainer extends Component {
 	constructor(props) {
@@ -13,9 +14,6 @@ class GameContainer extends Component {
 		this.update = this.update.bind(this);
 		this.resizeCanvas = this.resizeCanvas.bind(this);
 
-		this.canvas;
-		this.scene;
-		this.world;
 	}
 
 	componentDidMount() {
@@ -29,6 +27,12 @@ class GameContainer extends Component {
 		this.scene = new Scene(this.canvas);
 		this.world = new World(this.scene, this.controls, this.assets);
 		this.controls = new Controls(this.world, defaultKeyMap);
+
+		if(this.props.serverUrl !== '' && this.props.username !== '') {
+			this.client = new Client({
+				url: this.props.serverUrl,
+			}, this.world);
+		}
 
 		window.addEventListener('keydown', this.controls.onEvent);
 		window.addEventListener('keyup', this.controls.onEvent);
