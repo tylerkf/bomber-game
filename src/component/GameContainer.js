@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import defaultKeyMap from '../config/defaultKeyMap';
-import assetConfig from '../config/assets';
-import Controls from './game/Controls';
-import World from './game/World';
-import Scene from './game/Scene';
 import Client from './game/Client';
-import AssetLoader from './game/utilities/Asset/AssetLoader'
 
 class GameContainer extends Component {
 	constructor(props) {
@@ -13,7 +7,6 @@ class GameContainer extends Component {
 
 		this.update = this.update.bind(this);
 		this.resizeCanvas = this.resizeCanvas.bind(this);
-
 	}
 
 	componentDidMount() {
@@ -23,21 +16,15 @@ class GameContainer extends Component {
 		window.onresize = this.resizeCanvas;
   	this.resizeCanvas();
 
-		this.assets = new AssetLoader(assetConfig);
-		this.scene = new Scene(this.canvas);
-		this.world = new World(this.scene, this.controls, this.assets);
-		this.controls = new Controls(this.world, defaultKeyMap);
+		this.client = new Client({
+			url: this.props.serverUrl,
+			username: this.props.username
+		}, this.canvas);
 
-		if(this.props.serverUrl !== '' && this.props.username !== '') {
-			this.client = new Client({
-				url: this.props.serverUrl,
-			}, this.world);
-		}
-
-		window.addEventListener('keydown', this.controls.onEvent);
-		window.addEventListener('keyup', this.controls.onEvent);
-		window.addEventListener('mousedown', this.controls.onEvent);
-		window.addEventListener('mouseup', this.controls.onEvent);
+		window.addEventListener('keydown', this.client.controls.onEvent);
+		window.addEventListener('keyup', this.client.controls.onEvent);
+		window.addEventListener('mousedown', this.client.controls.onEvent);
+		window.addEventListener('mouseup', this.client.controls.onEvent);
 
   	requestAnimationFrame(this.update);
 	}
@@ -54,8 +41,8 @@ class GameContainer extends Component {
 	update(time) {
 		requestAnimationFrame(this.update);
 
-		this.world.update();
-		this.scene.render();
+		this.client.world.update();
+		this.client.scene.render();
 	}
 
 	render() {

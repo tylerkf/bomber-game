@@ -26,8 +26,10 @@ const SPEEDS = {
 const ANGULAR_VELOCITY = 6.;
 
 class Player extends Animated {
-  constructor(model, collisions, name='Player') {
+  constructor(model, name='Player') {
     super(model);
+
+    this.name = name;
 
     this.collider = new MovingCollider(0.4, 0.2);
 

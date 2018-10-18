@@ -1,8 +1,8 @@
 import * as THREE from 'three';
+import config from '../../../../config/assets';
 
 class AssetLoader {
-  constructor(config) {
-    this.config = config;
+  constructor() {
     this.loaded = {'textures': {}, 'models': {}};
 
     this.textureLoader = new THREE.TextureLoader();
@@ -13,7 +13,7 @@ class AssetLoader {
     if(this.loaded['textures'].hasOwnProperty(texture)) {
       callback(this.loaded['textures'][texture]);
     } else {
-      this.textureLoader.load(this.config['textures'][texture]['url'],
+      this.textureLoader.load(config['textures'][texture]['url'],
         item => {
           this.loaded['textures'][texture] = item;
           callback(item);
@@ -27,7 +27,7 @@ class AssetLoader {
     if(this.loaded['models'].hasOwnProperty(model)) {
       callback(this.loaded['models'][model]);
     } else {
-      this.objectLoader.load(this.config['models'][model]['url'],
+      this.objectLoader.load(config['models'][model]['url'],
         item => {
           this.loaded['models'][model] = item;
           callback(item);

@@ -9,17 +9,20 @@ class App extends Component {
 
     this.state = {
       url: '',
-      name: 'Player1'
+      name: 'Player1',
+      key: 0
     }
 
     this.joinServer = this.joinServer.bind(this);
   }
 
   joinServer(name, url) {
-    alert('Attempting to join as ' + name + ' to ' + url);
-    this.setState({
-      url: url,
-      name: name
+    this.setState((prevState) => {
+      return {
+        url: url,
+        name: name,
+        key: prevState.key + 1
+      }
     })
   }
 
@@ -27,7 +30,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <Overlay onJoin={this.joinServer} currentUrl={this.state.url} currentName={this.state.name}/>
-        <GameContainer serverUrl={this.state.url} username={this.state.name} />
+        <GameContainer key={this.state.key} serverUrl={this.state.url} username={this.state.name} />
       </React.Fragment>
     );
   }

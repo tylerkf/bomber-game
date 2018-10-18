@@ -1,12 +1,13 @@
 import * as THREE from 'three';
+
 import testWorld from './utilities/Test/testWorld';
 import CollisionEngine from './utilities/Collision/CollisionEngine';
+import Player from './entities/Player';
 
 class World {
-  constructor(scene, controls, assets) {
+  constructor(scene, assets) {
     this.clock = new THREE.Clock();
     this.scene = scene;
-    this.controls = controls;
     this.assets = assets;
 
     this.collisions = new CollisionEngine();
@@ -15,11 +16,6 @@ class World {
 
     testWorld.world((entity, assets) => {
       this.entities.push(entity);
-      this.scene.add(entity.mesh);
-    }, assets);
-
-    testWorld.player((entity, assets) => {
-      this.player = entity;
       this.scene.add(entity.mesh);
     }, assets);
   }
@@ -45,6 +41,17 @@ class World {
       this.scene.camera.position.x = this.player.position.x;
       this.scene.camera.position.y = this.player.position.y;
     }
+  }
+
+  addPlayer(name='Player', isLocalPlayer, callback) {
+    this.assets.getModel('Marine', model => {
+  		const player = new Player(model, name);
+  		player.mesh.scale.set(0.008,0.008,0.008);
+  		player.mesh.rotation.x = 90 * Math.PI / 180;
+      if(isLocalPlayer) this.player = player;
+      this.scene.add(player.mesh);
+      callback(player);
+  	});
   }
 };
 
