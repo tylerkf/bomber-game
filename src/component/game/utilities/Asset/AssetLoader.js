@@ -3,7 +3,10 @@ import config from '../../../../config/assets';
 
 class AssetLoader {
   constructor() {
-    this.loaded = {'textures': {}, 'models': {}};
+    this.loaded = {
+      'textures': {},
+      'models': {}
+    };
 
     this.textureLoader = new THREE.TextureLoader();
     this.objectLoader = new THREE.ObjectLoader();

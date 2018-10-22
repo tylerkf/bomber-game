@@ -27,6 +27,7 @@ const ANGULAR_VELOCITY = 6.;
 
 class Player extends Animated {
   constructor(model, name='Player') {
+    alert('Making ' + name);
     super(model);
 
     this.name = name;
