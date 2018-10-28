@@ -8,6 +8,7 @@ class Model extends Entity {
 
     if (this.mesh === undefined) {
     	// throw error
+      throw new Error('Could not extract mesh from model');
     }
   }
 

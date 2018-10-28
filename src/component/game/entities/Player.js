@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import Animated from './Animated';
-import MovingCollider from '../Collision/MovingCollider';
-import SAT from 'sat';
+import MovingCollider from '../utilities/Collision/MovingCollider';
 
 const IDLE = 'idle';
 const WALK = 'walk';
@@ -27,8 +26,10 @@ const SPEEDS = {
 const ANGULAR_VELOCITY = 6.;
 
 class Player extends Animated {
-  constructor(model, collisions) {
+  constructor(model, name='Player') {
     super(model);
+
+    this.name = name;
 
     this.collider = new MovingCollider(0.4, 0.2);
 
@@ -44,11 +45,11 @@ class Player extends Animated {
     newPosition.y -= overlapV.y;
     this.setPosition(newPosition);
 
-    if (overlapN.x != 0) {
+    if (overlapN.x !== 0) {
       this.velocity.x = 0;
     }
 
-    if (overlapN.y != 0) {
+    if (overlapN.y !== 0) {
       this.velocity.y = 0;
     }
   }

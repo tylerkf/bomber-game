@@ -1,10 +1,6 @@
-import * as THREE from 'three';
 import SAT from 'sat';
 
-import StaticCollider from './StaticCollider';
-
 class CollisionEngine {
-  constructor() { }
 
   run(player, entities, delta) {
     // check collision with all colliders

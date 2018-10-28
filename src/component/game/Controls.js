@@ -1,8 +1,9 @@
+import keyMap from '../../config/defaultKeyMap';
+
 const DOUBLE_PRESS_TIME = 300;
 
 class Controls {
-  constructor(world, keyMap) {
-    this.keyMap = keyMap;
+  constructor(world) {
     this.world = world;
 
     this.lastPressDown = {
@@ -22,10 +23,10 @@ class Controls {
 
     // get action
     let action = '';
-    if (press.double && this.keyMap['d' + press.key]) {
-      action = this.keyMap['d' + press.key]
+    if (press.double && keyMap['d' + press.key]) {
+      action = keyMap['d' + press.key]
     } else {
-      action = this.keyMap[press.key];
+      action = keyMap[press.key];
     }
 
     if (action === undefined) {
