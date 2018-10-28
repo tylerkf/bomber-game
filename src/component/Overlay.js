@@ -10,6 +10,7 @@ class Overlay extends Component {
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onLocalButtonClick = this.onLocalButtonClick.bind(this);
     this.join = this.join.bind(this);
   }
 
@@ -24,17 +25,24 @@ class Overlay extends Component {
     this.props.onJoin(this.state.form_name, this.state.form_url);
   }
 
+  onLocalButtonClick() {
+    this.setState({
+      form_url: 'ws://localhost:3001'
+    });
+  }
+
   render() {
     return (
       <div className='overlay'>
         <h3>Bomber Game Server</h3>
-        <form onSubmit={this.join}>
+        <div>
           <p>Server</p>
           <input type='text' name='form_url' value={this.state.form_url} onChange={this.onChange} />
+          <input type='button' onClick={this.onLocalButtonClick} value='localhost' />
           <p>Join as</p>
           <input type='text' name='form_name' value={this.state.form_name} onChange={this.onChange} />
-          <br /><input type='submit' value='Join' />
-        </form>
+          <br /><input type='button' onClick={this.join} value='Join' />
+        </div>
       </div>
     );
   }

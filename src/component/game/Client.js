@@ -1,9 +1,11 @@
-import * as THREE from 'three';
-
 import AssetLoader from './utilities/Asset/AssetLoader';
 import Controls from './Controls';
 import World from './World';
 import Scene from './Scene';
+
+import PlayerPositionHandler from './message/PlayerPosition';
+import PlayerJoinedHandler from './message/PlayerJoined';
+import GameStateHandler from './message/GameState';
 
 class Client {
   constructor(config, canvas) {
@@ -13,64 +15,38 @@ class Client {
 		this.world = new World(this.scene, this.assets);
     this.controls = new Controls(this.world);
 
-    this.world.addPlayer(config.username, true, () => {});
-
-    this.connectedPlayers = {};
-
     this.username = config.username;
 
     if(config.url && config.username) {
       alert('Connecting ' + config.username + ' to ' + config.url);
+
+      this.handlers = {};
+      this.handlers['player position'] = new PlayerPositionHandler(this);
+      this.handlers['player joined'] = new PlayerJoinedHandler(this);
+      this.handlers['game state'] = new GameStateHandler(this);
+
       let query = config.url + '?name=' + config.username;
       const ws = new WebSocket(query);
+
       ws.onmessage = this.onMessage;
+
+      console.log('You are online');
+
+    } else {
+      this.world.populateWithLocalEntities();
+      console.log('You are in an offline world');
     }
 
   }
 
   onMessage = (data) => {
-    let message = JSON.parse(data.data);
-
-    if(message.type === 'player joined') {
-      this.connectedPlayers[message.name] = {};
-      alert('Player ' + message.name + ' joined!');
-
-      this.world.addPlayer('newplayer', false, (p) => {
-        p.setPosition(new THREE.Vector3(-5,-1,0));
-      });
-      /*
-      this.world.addPlayer(message.name, false, (newPlayer) => {
-        this.connectedPlayers[message.name] = newPlayer;
-      });
-      */
-
-    } else if (message.type === 'player position') {
-      let target = this.connectedPlayers[message.name];
-      if(target != {}) {
-        target.updatePosition(
-          new THREE.Vector3(message.position[0],message.position[1],message.position[2])
-        );
-      }
-
-    } else if (message.type === 'game state') {
-      this.connectedPlayers = {};
-
-      message.players.forEach(p => {
-        if(p.name !== this.username) {
-          this.connectedPlayers[p.name] = {};
-
-          this.world.addPlayer(p.name, false, (newPlayer) => {
-            this.connectedPlayers[p.name] = newPlayer;
-
-            newPlayer.updatePosition(
-              new THREE.Vector3(p.position[0],p.position[1],p.position[2])
-            );
-          });
-        }
-      });
-
+    try {
+      let message = JSON.parse(data.data);
+      this.handlers[message.type].handle(message);
+    } catch(error) {
+      console.error('Failed to handle server message:');
+      console.error(error);
     }
-
   }
 
 }

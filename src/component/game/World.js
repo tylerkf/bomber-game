@@ -13,11 +13,19 @@ class World {
     this.collisions = new CollisionEngine();
 
     this.entities = [];
+    // players ⊆ player
+    this.players = {};
+    this.addPlayer('LOCAL_PLAYER', (player) => {
+      this.player = player;
+    });
 
+  }
+
+  populateWithLocalEntities() {
     testWorld.world((entity, assets) => {
       this.entities.push(entity);
       this.scene.add(entity.mesh);
-    }, assets);
+    }, this.assets);
   }
 
   onAction(action, stop=false) {
@@ -43,16 +51,25 @@ class World {
     }
   }
 
-  addPlayer(name='Player', isLocalPlayer, callback) {
+  addEntity(entity) {
+    this.entities.push(entity);
+    this.scene.add(entity.mesh);
+  }
+
+  addPlayer(name='Player', callback) {
     this.assets.getModel('Marine', model => {
   		const player = new Player(model, name);
+
   		player.mesh.scale.set(0.008,0.008,0.008);
   		player.mesh.rotation.x = 90 * Math.PI / 180;
-      if(isLocalPlayer) this.player = player;
       this.scene.add(player.mesh);
+
+      this.players[name] = player;
+
       callback(player);
   	});
   }
+
 };
 
 export default World;
