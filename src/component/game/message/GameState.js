@@ -33,7 +33,6 @@ class GameStateHandler {
       let level = bombDetails[1];
 
       const bomb = new Bomb(level);
-      console.log('Creating bomb at level ' + level);
     	bomb.setPosition(new THREE.Vector3(position[0], position[1], 0));
     	this.w.addEntity(bomb);
 

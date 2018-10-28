@@ -26,9 +26,10 @@ class Client {
       this.handlers['game state'] = new GameStateHandler(this);
 
       let query = config.url + '?name=' + config.username;
-      const ws = new WebSocket(query);
-
-      ws.onmessage = this.onMessage;
+      this.ws = new WebSocket(query);
+      this.ws.onmessage = this.onMessage;
+      this.setupInformMovement = this.setupInformMovement.bind(this);
+      this.setupInformMovement();
 
       console.log('You are online');
 
@@ -47,6 +48,18 @@ class Client {
       console.error('Failed to handle server message:');
       console.error(error);
     }
+  }
+
+  setupInformMovement() {
+    setInterval(() => {
+      let pos = this.world.player.position;
+      this.ws.send(JSON.stringify({
+        type: 'position',
+        x: pos.x,
+        y: pos.y,
+        z: pos.z
+      }));
+    }, 1000);
   }
 
 }

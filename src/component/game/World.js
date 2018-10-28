@@ -13,7 +13,7 @@ class World {
     this.collisions = new CollisionEngine();
 
     this.entities = [];
-    // players ⊆ player
+    // player ∈ players
     this.players = {};
     this.addPlayer('LOCAL_PLAYER', (player) => {
       this.player = player;
@@ -29,7 +29,9 @@ class World {
   }
 
   onAction(action, stop=false) {
-    this.player.onAction(action, stop);
+    if (this.player !== undefined) {
+      this.player.onAction(action, stop);
+    }
   }
 
 	update() {
@@ -56,7 +58,7 @@ class World {
     this.scene.add(entity.mesh);
   }
 
-  addPlayer(name='Player', callback) {
+  addPlayer(name, callback) {
     this.assets.getModel('Marine', model => {
   		const player = new Player(model, name);
 
