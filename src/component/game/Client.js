@@ -31,7 +31,7 @@ class Client {
       this.ws = new WebSocket(query);
       this.ws.onmessage = this.onMessage;
       this.setupInformMovement = this.setupInformMovement.bind(this);
-      this.setupInformMovement();
+      setTimeout(this.setupInformMovement, 1000);
 
       console.log('You are online');
 
@@ -61,7 +61,7 @@ class Client {
         y: pos.y,
         z: pos.z
       }));
-    }, 1000);
+    }, 33);
   }
 
 }
