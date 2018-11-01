@@ -1,10 +1,16 @@
 import * as THREE from 'three';
-import Player from '../../entities/Player';
 import Box from '../../entities/Box';
 import Bomb from '../../entities/Bomb';
 import Floor from '../../entities/Floor';
 
-function world(callback, assets) {
+function populate(world) {
+	worldEntities((entity) => {
+		world.entities.push(entity);
+		world.scene.add(entity.mesh);
+	}, world.assets);
+}
+
+function worldEntities(callback, assets) {
 	assets.getTexture('Wood', texture => {
 		const box1 = new Box(0, -1, texture);
 		callback(box1);
@@ -12,7 +18,7 @@ function world(callback, assets) {
 		callback(box2);
 	});
 
-	generateBoundary(9).forEach((point) => {
+	_generateBoundary(9).forEach((point) => {
 		assets.getTexture('Stone', texture => {
 			let box = new Box(point.x, point.y, texture);
 			callback(box);
@@ -37,7 +43,7 @@ function world(callback, assets) {
 	callback(bomb2);
 }
 
-function generateBoundary(length) {
+function _generateBoundary(length) {
 	let half = Math.floor(length/2);
 	let points = [];
 	for(let dist = 0; dist < length; dist++) {
@@ -49,13 +55,4 @@ function generateBoundary(length) {
 	return points;
 }
 
-function player(callback, assets) {
-	assets.getModel('Marine', model => {
-		const marine = new Player(model);
-		marine.mesh.scale.set(0.008,0.008,0.008);
-		marine.mesh.rotation.x = 90 * Math.PI / 180;
-		callback(marine);
-	});
-}
-
-export default { world, player };
+export default { populate };

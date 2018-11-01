@@ -3,6 +3,8 @@ import Controls from './Controls';
 import World from './World';
 import Scene from './Scene';
 
+import testWorld from './utilities/Test/testWorld';
+
 import PlayerPositionHandler from './message/PlayerPosition';
 import PlayerJoinedHandler from './message/PlayerJoined';
 import GameStateHandler from './message/GameState';
@@ -34,7 +36,7 @@ class Client {
       console.log('You are online');
 
     } else {
-      this.world.populateWithLocalEntities();
+      testWorld.populate(this.world);
       console.log('You are in an offline world');
     }
 

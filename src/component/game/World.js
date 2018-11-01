@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 
-import testWorld from './utilities/Test/testWorld';
 import CollisionEngine from './utilities/Collision/CollisionEngine';
 import Player from './entities/Player';
 
@@ -19,13 +18,6 @@ class World {
       this.player = player;
     });
 
-  }
-
-  populateWithLocalEntities() {
-    testWorld.world((entity, assets) => {
-      this.entities.push(entity);
-      this.scene.add(entity.mesh);
-    }, this.assets);
   }
 
   onAction(action, stop=false) {
