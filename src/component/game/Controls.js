@@ -12,6 +12,11 @@ class Controls {
     };
 
     this.onEvent = this.onEvent.bind(this);
+
+    window.addEventListener('keydown', this.onEvent);
+		window.addEventListener('keyup', this.onEvent);
+		window.addEventListener('mousedown', this.onEvent);
+		window.addEventListener('mouseup', this.onEvent);
   }
 
   onEvent(event) {

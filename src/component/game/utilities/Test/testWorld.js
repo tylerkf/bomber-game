@@ -4,13 +4,12 @@ import Bomb from '../../entities/Bomb';
 import Floor from '../../entities/Floor';
 
 function populate(world) {
-	worldEntities((entity) => {
-		world.entities.push(entity);
-		world.scene.add(entity.mesh);
+	_worldEntities((entity) => {
+		world.addEntity(entity);
 	}, world.assets);
 }
 
-function worldEntities(callback, assets) {
+function _worldEntities(callback, assets) {
 	assets.getTexture('Wood', texture => {
 		const box1 = new Box(0, -1, texture);
 		callback(box1);

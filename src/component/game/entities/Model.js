@@ -7,7 +7,6 @@ class Model extends Entity {
     this.mesh = this._getMeshFromModel(model);
 
     if (this.mesh === undefined) {
-    	// throw error
       throw new Error('Could not extract mesh from model');
     }
   }

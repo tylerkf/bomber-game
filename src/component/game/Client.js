@@ -37,6 +37,10 @@ class Client {
 
     } else {
       testWorld.populate(this.world);
+
+      this.world.addPlayer('Test', (p) => {
+        p.onAction('walkForwards',false);
+      });
       console.log('You are in an offline world');
     }
 
@@ -50,6 +54,10 @@ class Client {
       console.error('Failed to handle server message:');
       console.error(error);
     }
+  }
+
+  informAction(action, ) {
+
   }
 
   setupInformMovement() {

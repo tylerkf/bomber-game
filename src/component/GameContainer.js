@@ -21,11 +21,6 @@ class GameContainer extends Component {
 			username: this.props.username
 		}, this.canvas);
 
-		window.addEventListener('keydown', this.client.controls.onEvent);
-		window.addEventListener('keyup', this.client.controls.onEvent);
-		window.addEventListener('mousedown', this.client.controls.onEvent);
-		window.addEventListener('mouseup', this.client.controls.onEvent);
-
   	requestAnimationFrame(this.update);
 	}
 

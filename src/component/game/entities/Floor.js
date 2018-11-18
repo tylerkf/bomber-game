@@ -8,7 +8,6 @@ class Floor extends Entity {
     let geometry = new THREE.PlaneGeometry(width, height);
     let material = new THREE.MeshLambertMaterial({ map: texture });
 
-
     this.mesh = new THREE.Mesh(geometry, material);
   }
 }
