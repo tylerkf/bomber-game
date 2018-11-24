@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
-import Box from '../entities/Box';
-import Bomb from '../entities/Bomb';
+import Box from '../../entities/Box';
+import Bomb from '../../entities/Bomb';
 
 class GameStateHandler {
   constructor(client) {

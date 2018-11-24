@@ -1,13 +1,31 @@
 import React, { Component } from 'react';
 import Client from './game/Client';
+import Console from './Console'
 
 class GameContainer extends Component {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			messages: []
+		};
+
 		this.update = this.update.bind(this);
 		this.resizeCanvas = this.resizeCanvas.bind(this);
+		this.addConsoleMessage = this.addConsoleMessage.bind(this);
 	}
+
+	addConsoleMessage(text, from) {
+		let message = {
+			text: text,
+			from: from
+		};
+    this.setState((prevState) => {
+      return {
+        messages: prevState.messages.concat(message)
+      };
+    });
+  }
 
 	componentDidMount() {
 		this.canvas = document.createElement('canvas');
@@ -19,7 +37,7 @@ class GameContainer extends Component {
 		this.client = new Client({
 			url: this.props.serverUrl,
 			username: this.props.username
-		}, this.canvas);
+		}, this.canvas, this.addConsoleMessage);
 
   	requestAnimationFrame(this.update);
 	}
@@ -42,7 +60,10 @@ class GameContainer extends Component {
 
 	render() {
 		return (
-			<div ref={element => this.sceneContainer = element} />
+			<React.Fragment>
+				<Console messages={this.state.messages} />
+				<div ref={element => this.sceneContainer = element} />
+			</React.Fragment>
 		);
 	}
 }
