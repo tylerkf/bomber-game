@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 import CollisionEngine from './utilities/Collision/CollisionEngine';
 import Player from './entities/Player';
+import Explosion from './entities/Explosion';
 
 class World {
   constructor(scene, assets) {
@@ -43,6 +44,18 @@ class World {
       this.scene.camera.position.x = this.player.position.x;
       this.scene.camera.position.y = this.player.position.y;
     }
+  }
+
+  createExplosion(x, y) {
+    let explosion = new Explosion(x, y);
+
+    this.entities.push(explosion);
+    this.scene.add(explosion.mesh);
+
+    setTimeout(() => {
+  		this.entities.splice(this.entities.indexOf(explosion), 1);
+  		this.scene.remove(explosion.mesh);
+  	}, 1000);
   }
 
   addEntity(entity) {

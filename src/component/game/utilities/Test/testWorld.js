@@ -7,6 +7,10 @@ function populate(world) {
 	_worldEntities((entity) => {
 		world.addEntity(entity);
 	}, world.assets);
+
+	setInterval(() => {
+		world.createExplosion(0, 0);
+	}, 1000);
 }
 
 function _worldEntities(callback, assets) {

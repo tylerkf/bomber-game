@@ -19,6 +19,10 @@ class Scene {
     this.scene.add(object);
   }
 
+  remove(object) {
+    this.scene.remove(object);
+  }
+
   render() {
     this.renderer.render(this.scene, this.camera);
   }
