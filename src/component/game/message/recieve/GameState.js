@@ -4,13 +4,14 @@ import Box from '../../entities/Box';
 import Bomb from '../../entities/Bomb';
 
 class GameStateHandler {
+
   constructor(client) {
     this.c = client;
     this.w = client.world;
   }
 
   handle(message) {
-    alert('Attempting to load game state from server');
+    this.c.onConsoleMessage('Attempting to load game state from server', 'debug');
 
     message.players.forEach(p => {
       if(p.name !== this.c.username) {
@@ -38,7 +39,7 @@ class GameStateHandler {
 
     })
 
-    alert('Game state loaded successfully');
+    this.c.onConsoleMessage('Game state loaded successfully', 'debug');
 
   }
 }

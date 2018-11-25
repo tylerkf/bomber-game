@@ -15,18 +15,23 @@ class Client {
 		this.world = new World(this.scene, this.assets);
     this.controls = new Controls(this.world);
 
+    this.onConsoleMessage = onConsoleMessage;
     this.username = config.username;
 
     if(config.url && config.username) {
-      alert('Connecting ' + config.username + ' to ' + config.url);
+      onConsoleMessage('Connecting ' + config.username + ' to ' + config.url, 'debug');
 
       let query = config.url + '?name=' + config.username;
+
       this.ws = new WebSocket(query);
+      this.reciever = new MessageReciever(this, this.ws, onConsoleMessage);
+      this.sender = new MessageSender(this, this.ws);
 
-      let receiver = new MessageReciever(this, this.ws, onConsoleMessage);
-      let sender = new MessageSender(this, this.ws);
-
-      console.log('You are online');
+      this.ws.onopen = () => {
+        this.reciever.start();
+        this.sender.start();
+        onConsoleMessage('Connected successfully', 'debug');
+      }
 
     } else {
       testWorld.populate(this.world);
