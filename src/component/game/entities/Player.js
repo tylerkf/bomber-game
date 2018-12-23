@@ -143,7 +143,7 @@ class Player extends Animated {
     return direction;
   }
 
-  _velocityToAnimationWeights(velocity) {
+  velocityToAnimationWeights(velocity) {
     const speed = velocity.length();
     const weights = {};
 
@@ -216,13 +216,13 @@ class Player extends Animated {
     }
   }
 
-  update(delta) {
+  update(delta, allowMovement = true) {
     this.updateVelocity(delta);
 
     const speed = this.velocity.length();
 
     // update position
-    if (speed !== 0) {
+    if (speed !== 0 && allowMovement) {
       const change = this.velocity.clone();
       change.multiplyScalar(delta);
 
@@ -233,7 +233,7 @@ class Player extends Animated {
     // update animation weights
     if (speed !== 0) {
       // TODO - add more animations
-      const weights = this._velocityToAnimationWeights(this.velocity);
+      const weights = this.velocityToAnimationWeights(this.velocity);
       super.setAnimationWeights(weights);
     } else {
       super.setAnimationWeights({});

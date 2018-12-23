@@ -13,12 +13,12 @@ class World {
     this.collisions = new CollisionEngine();
 
     this.entities = [];
-    // player ∈ players
-    this.players = {};
+    this.players = [];
     this.addPlayer('LOCAL_PLAYER', (player) => {
       this.player = player;
     });
 
+    this.update = this.update.bind(this);
   }
 
   onAction(action, stop=false) {
@@ -34,15 +34,16 @@ class World {
     for (let i = 0; i < this.entities.length; i++) {
       this.entities[i].update(delta);
     }
+    //update players
+    for (let i= 0; i < this.players.length; i++) {
+      this.players[i].update(delta);
+    }
 
     if (this.player !== undefined) {
-      this.player.update(delta);
-
       // check collisions
       this.collisions.run(this.player, this.entities, delta);
-
-      this.scene.camera.position.x = this.player.position.x;
-      this.scene.camera.position.y = this.player.position.y;
+      // update scene to follow player
+      this.scene.update(this.player);
     }
   }
 
@@ -58,6 +59,16 @@ class World {
   	}, 1000);
   }
 
+  getEntityByTag(tag) {
+    this.entities.find(entity => entity.tag && entity.tag === tag);
+  }
+
+  deleteEntityByTag(tag) {
+    let entity = this.getEntityByTag(tag);
+    this.scene.remove(entity.mesh);
+    this.entities = this.entities.filter(entity => !entity.tag || entity.tag !== tag)
+  }
+
   addEntity(entity) {
     this.entities.push(entity);
     this.scene.add(entity.mesh);
@@ -69,9 +80,9 @@ class World {
 
   		player.mesh.scale.set(0.008,0.008,0.008);
   		player.mesh.rotation.x = 90 * Math.PI / 180;
-      this.scene.add(player.mesh);
 
-      this.players[name] = player;
+      this.scene.add(player.mesh);
+      this.players.push(player);
 
       callback(player);
   	});

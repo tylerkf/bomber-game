@@ -1,3 +1,4 @@
+import PlayerStateMessage from './send/PlayerState';
 
 class MessageSender {
 
@@ -9,19 +10,13 @@ class MessageSender {
   }
 
   start() {
+    let updatePacket = new PlayerStateMessage(this.world);
     setInterval(() => {
       if(this.world.player !== undefined) {
-        let pos = this.world.player.position;
-        this.ws.send(JSON.stringify({
-          type: 'position',
-          x: pos.x,
-          y: pos.y,
-          z: pos.z
-        }));
+        this.ws.send(updatePacket.toString());
       }
     }, 33);
   }
-
 
 }
 

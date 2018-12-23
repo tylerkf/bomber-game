@@ -1,5 +1,4 @@
-import PlayerPositionHandler from './recieve/PlayerPosition';
-import PlayerJoinedHandler from './recieve/PlayerJoined';
+import GameStateUpdateHandler from './recieve/GameStateUpdate';
 import GameStateHandler from './recieve/GameState';
 import ConsoleMessageHandler from './recieve/ConsoleMessage';
 
@@ -8,9 +7,8 @@ class MessageReciever {
   constructor(client, ws, onConsoleMessage) {
     this.ws = ws;
     this.handlers = {};
-    this.handlers['player position'] = new PlayerPositionHandler(client);
-    this.handlers['player joined'] = new PlayerJoinedHandler(client);
     this.handlers['game state'] = new GameStateHandler(client);
+    this.handlers['game state update'] = new GameStateUpdateHandler(client);
     this.handlers['console message'] = new ConsoleMessageHandler(onConsoleMessage);
 
     this.onConsoleMessage = onConsoleMessage;

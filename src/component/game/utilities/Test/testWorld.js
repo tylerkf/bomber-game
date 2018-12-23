@@ -11,6 +11,14 @@ function populate(world) {
 	setInterval(() => {
 		world.createExplosion(0, 0);
 	}, 1000);
+
+	world.addPlayer('npc', (p) => {
+		p.setPosition(new THREE.Vector3(3,0,0));
+		setInterval(() => {
+			const weights = p.velocityToAnimationWeights(new THREE.Vector3(20,0,0));
+			p.setAnimationWeights(weights);
+		}, 2000);
+	});
 }
 
 function _worldEntities(callback, assets) {

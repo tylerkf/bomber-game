@@ -10,7 +10,6 @@ class GameContainer extends Component {
 			messages: []
 		};
 
-		this.update = this.update.bind(this);
 		this.resizeCanvas = this.resizeCanvas.bind(this);
 		this.addConsoleMessage = this.addConsoleMessage.bind(this);
 	}
@@ -38,8 +37,6 @@ class GameContainer extends Component {
 			url: this.props.serverUrl,
 			username: this.props.username
 		}, this.canvas, this.addConsoleMessage);
-
-  	requestAnimationFrame(this.update);
 	}
 
 	resizeCanvas() {
@@ -49,13 +46,6 @@ class GameContainer extends Component {
 		  this.canvas.width = this.canvas.offsetWidth;
 		  this.canvas.height = this.canvas.offsetHeight;
 		}
-	}
-
-	update(time) {
-		requestAnimationFrame(this.update);
-
-		this.client.world.update();
-		this.client.scene.render();
 	}
 
 	render() {

@@ -13,34 +13,48 @@ class GameStateHandler {
   handle(message) {
     this.c.onConsoleMessage('Attempting to load game state from server', 'debug');
 
-    message.players.forEach(p => {
-      if(p.name !== this.c.username) {
-        this.w.addPlayer(p.name, (p) => {
-          p.setPosition(new THREE.Vector3(p.position[0],p.position[1],p.position[2]));
-        });
+    message.players.forEach(details => {
+      if(details.name === this.c.username) {
+        return;
       }
+
+      this.w.addPlayer(details.name, (p) => {
+        this._updatePlayer(p, details);
+      });
     });
 
-    message.map.boxes.forEach(boxDetails => {
-      let textureName = boxDetails[2];
-      this.c.assets.getTexture(textureName, texture => {
-    		const box = new Box(boxDetails[0], boxDetails[1], texture);
-        this.w.addEntity(box);
-    	});
+    message.map.boxes.forEach(entity => {
+      this._addBox(entity.tag, entity.object);
     })
 
-    message.map.bombs.forEach(bombDetails => {
-      let position = bombDetails[0];
-      let level = bombDetails[1];
-
-      const bomb = new Bomb(level);
-    	bomb.setPosition(new THREE.Vector3(position[0], position[1], 0));
-    	this.w.addEntity(bomb);
-
+    message.map.bombs.forEach(entity => {
+      this._addBomb(entity.tag, entity.object);
     })
 
     this.c.onConsoleMessage('Game state loaded successfully', 'debug');
+  }
 
+  _addBomb(tag, details) {
+    let pos = details.position;
+    const bomb = new Bomb(details.level);
+    bomb.tag = tag;
+    bomb.setPosition(new THREE.Vector3(pos[0], pos[1], 0));
+    this.w.addEntity(bomb);
+  }
+
+  _addBox(tag, details) {
+    let pos = details.position;
+    this.c.assets.getTexture(details.texture, texture => {
+      const box = new Box(pos[0], pos[1], texture);
+      box.tag = tag;
+      this.w.addEntity(box);
+    });
+  }
+
+  _updatePlayer(player, details) {
+    player.setPosition(new THREE.Vector3(details.position[0],details.position[1],details.position[2]));
+    player.velocity = new THREE.Vector3(details.velocity[0],details.velocity[1],details.velocity[2]);
+    player.state = details.state;
   }
 }
 

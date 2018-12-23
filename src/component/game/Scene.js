@@ -15,6 +15,11 @@ class Scene {
     this.scene.add(new THREE.AmbientLight(0xffffff));
   }
 
+  update(entity) {
+    this.camera.position.x = entity.position.x;
+    this.camera.position.y = entity.position.y;
+  }
+
   add(object) {
     this.scene.add(object);
   }

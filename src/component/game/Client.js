@@ -35,15 +35,19 @@ class Client {
 
     } else {
       testWorld.populate(this.world);
-
-      this.world.addPlayer('Test', (p) => {
-        p.onAction('walkForwards',false);
-      });
       onConsoleMessage('You are in an offline world');
     }
 
+    this.update = this.update.bind(this);
+    requestAnimationFrame(this.update);
   }
 
+  update(time) {
+		requestAnimationFrame(this.update);
+
+		this.world.update();
+		this.scene.render();
+	}
 
 }
 
