@@ -10,6 +10,11 @@ class GameStateUpdateHandler {
     this.pendingPlayers = [];
 
     this.handle = this.handle.bind(this);
+
+    this.printTagFetching = false;
+    setTimeout(() => {
+      this.printTagFetching = true;
+    }, 2000);
   }
 
   handle(message) {
@@ -51,7 +56,7 @@ class GameStateUpdateHandler {
         case 'entity moved':
           let entity = this.w.getEntityByTag(event.tag);
           if(entity) {
-            entity.setPosition(event.position);
+            entity.setPosition(new THREE.Vector3(event.position[0], event.position[1], 0));
           } else {
             console.error('Event: could not find to move tag:' + event.tag);
           }

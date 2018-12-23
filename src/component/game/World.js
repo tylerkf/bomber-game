@@ -60,7 +60,7 @@ class World {
   }
 
   getEntityByTag(tag) {
-    this.entities.find(entity => entity.tag && entity.tag === tag);
+    return this.entities.find(entity => entity.tag && entity.tag === tag);
   }
 
   deleteEntityByTag(tag) {

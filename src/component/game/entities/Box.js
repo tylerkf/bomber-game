@@ -14,6 +14,11 @@ class Box extends Entity {
 
     this.setPosition(new THREE.Vector3(x, y, 0.5));
   }
+
+  setPosition(position) {
+    super.setPosition(position);
+    this.collider.bounds.pos = position;
+  }
 }
 
 export default Box;
