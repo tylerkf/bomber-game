@@ -40,6 +40,9 @@ body {
          -o-animation: fadein 2s; /* Opera < 12.1 */
             animation: fadein 2s;
 }
+.error-message {
+  color: red;
+}
 
 @keyframes fadein {
     from { opacity: 0; }

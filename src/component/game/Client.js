@@ -24,6 +24,13 @@ class Client {
       let query = config.url + '?name=' + config.username;
 
       this.ws = new WebSocket(query);
+      this.ws.onclose = (event) => {
+        if (event.code == 3001) {
+          onConsoleMessage('Connection stopped', 'error');
+        } else {
+          onConsoleMessage('Connection failed', 'error');
+        }
+      };
       this.reciever = new MessageReciever(this, this.ws, onConsoleMessage);
       this.sender = new MessageSender(this, this.ws);
 
