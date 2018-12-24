@@ -25,7 +25,7 @@ class Client {
 
       this.ws = new WebSocket(query);
       this.ws.onclose = (event) => {
-        if (event.code == 3001) {
+        if (event.code === 3001) {
           onConsoleMessage('Connection stopped', 'error');
         } else {
           onConsoleMessage('Connection failed', 'error');
