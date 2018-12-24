@@ -10,11 +10,6 @@ class GameStateUpdateHandler {
     this.pendingPlayers = [];
 
     this.handle = this.handle.bind(this);
-
-    this.printTagFetching = false;
-    setTimeout(() => {
-      this.printTagFetching = true;
-    }, 2000);
   }
 
   handle(message) {

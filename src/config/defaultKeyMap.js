@@ -3,5 +3,6 @@ export default {
   'dw': 'runForwards',
   'a': 'walkLeft',
   's': 'walkBackwards',
-  'd': 'walkRight'
+  'd': 'walkRight',
+  ' ': 'placeBomb'
 };

@@ -13,7 +13,7 @@ class Client {
 
 		this.scene = new Scene(canvas);
 		this.world = new World(this.scene, this.assets);
-    this.controls = new Controls(this.world);
+    this.controls = new Controls(this.world, this);
 
     this.onConsoleMessage = onConsoleMessage;
     this.username = config.username;

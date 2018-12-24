@@ -3,8 +3,9 @@ import keyMap from '../../config/defaultKeyMap';
 const DOUBLE_PRESS_TIME = 300;
 
 class Controls {
-  constructor(world) {
+  constructor(world, client) {
     this.world = world;
+    this.client = client;
 
     this.lastPressDown = {
       key: '',
@@ -39,9 +40,15 @@ class Controls {
     }
 
     // perform action
-    this.world.onAction(action, !press.down);
-
-    // send to server
+    switch(action) {
+      case 'placeBomb':
+        if(this.client.sender && press.down) {
+          this.client.sender.informPlaceBomb(this.world.player.position, 1);
+        }
+        break;
+      default:
+        this.world.onAction(action, !press.down);
+    }
   }
 
   getPress(event) {

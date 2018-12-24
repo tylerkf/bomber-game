@@ -1,4 +1,5 @@
 import PlayerStateMessage from './send/PlayerState';
+import PlaceBombMessage from './send/PlaceBomb';
 
 class MessageSender {
 
@@ -16,6 +17,15 @@ class MessageSender {
         this.ws.send(updatePacket.toString());
       }
     }, 33);
+  }
+
+  send(message) {
+    this.ws.send(message.toString());
+  }
+
+  informPlaceBomb(position, level) {
+    let packet = new PlaceBombMessage(position, level);
+    this.ws.send(packet.toString());
   }
 
 }
