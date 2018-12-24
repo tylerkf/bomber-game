@@ -23,8 +23,8 @@ class MessageSender {
     this.ws.send(message.toString());
   }
 
-  informPlaceBomb(position, level) {
-    let packet = new PlaceBombMessage(position, level);
+  informPlaceBomb(level) {
+    let packet = new PlaceBombMessage(level);
     this.ws.send(packet.toString());
   }
 

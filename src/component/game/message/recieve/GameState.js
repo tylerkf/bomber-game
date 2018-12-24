@@ -23,11 +23,11 @@ class GameStateHandler {
       });
     });
 
-    message.map.boxes.forEach(entity => {
+    message.map.box.forEach(entity => {
       this._addBox(entity.tag, entity.object);
     })
 
-    message.map.bombs.forEach(entity => {
+    message.map.bomb.forEach(entity => {
       this._addBomb(entity.tag, entity.object);
     })
 

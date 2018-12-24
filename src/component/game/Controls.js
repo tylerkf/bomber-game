@@ -43,7 +43,7 @@ class Controls {
     switch(action) {
       case 'placeBomb':
         if(this.client.sender && press.down) {
-          this.client.sender.informPlaceBomb(this.world.player.position, 1);
+          this.client.sender.informPlaceBomb(2);
         }
         break;
       default:
