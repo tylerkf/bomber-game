@@ -14,7 +14,14 @@ class GameStateUpdateHandler {
 
   handle(message) {
     message.players.forEach(details => {
+
       if(details.name === this.c.username) {
+        let difX = this.w.player.position.x - details.position[0];
+        let difY = this.w.player.position.y - details.position[1];
+        let difZ = this.w.player.position.z - details.position[2];
+        if(Math.abs(difX) > 1 || Math.abs(difY) > 1 || Math.abs(difZ) > 1) {
+          this._updatePlayer(this.w.player, details);
+        }
         return;
       }
 
