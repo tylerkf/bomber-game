@@ -88,6 +88,12 @@ class World {
   	});
   }
 
+  removePlayer(name) {
+    let player = this.players.find(p => p.name === name);
+    this.players = this.players.filter(p => p.name !== player.name);
+    this.scene.remove(player.mesh);
+  }
+
 };
 
 export default World;

@@ -28,23 +28,28 @@ class GameStateUpdateHandler {
       }
 
       let player = this.w.players.find(p => p.name === details.name);
-
-      if(!player) {
-        if(!this.pendingPlayers.includes(details.name)) {
-          this.pendingPlayers.push(details.name)
-
-          this.w.addPlayer(details.name, (p) => {
-            this._updatePlayer(p, details);
-            this.pendingPlayers.splice(this.pendingPlayers.indexOf(details.name), 1);
-          });
-        }
-      } else {
+      if(player) {
         this._updatePlayer(player, details);
       }
+
     });
 
     message.events.forEach(event => {
       switch(event.type) {
+        case 'player added':
+          if(event.name === this.c.username) {
+            return;
+          }
+          this.pendingPlayers.push(event.name)
+          let details = message.players.find(p => p.name === event.name);
+          this.w.addPlayer(event.name, (p) => {
+            this._updatePlayer(p, details);
+            this.pendingPlayers.splice(this.pendingPlayers.indexOf(event.name), 1);
+          });
+          break;
+        case 'player removed':
+          this.w.removePlayer(event.name);
+          break;
         case 'entity added':
           switch(event.object.type) {
             case 'box':
