@@ -1,6 +1,5 @@
 
 class ConsoleMessageHandler {
-
   constructor(onConsoleMessage) {
     this.onConsoleMessage = onConsoleMessage;
   }

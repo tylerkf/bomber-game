@@ -34,7 +34,7 @@ class World {
     for (let i = 0; i < this.entities.length; i++) {
       this.entities[i].update(delta);
     }
-    //update players
+    // update players
     for (let i= 0; i < this.players.length; i++) {
       this.players[i].update(delta);
     }
@@ -42,8 +42,13 @@ class World {
     if (this.player !== undefined) {
       // check collisions
       this.collisions.run(this.player, this.entities, delta);
+
       // update scene to follow player
-      this.scene.update(this.player);
+      if(this.player.isdead) {
+        this.scene.update(new THREE.Vector3(0, 0, 0));
+      } else {
+        this.scene.update(this.player.position);
+      }
     }
   }
 

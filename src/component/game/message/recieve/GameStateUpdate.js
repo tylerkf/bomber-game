@@ -17,6 +17,16 @@ class GameStateUpdateHandler {
 
       if(details.name === this.c.username) {
         if(typeof this.w.player !== 'undefined') {
+          // has died
+          if(!this.w.player.isdead && details.isdead) {
+            this.c.scene.remove(this.w.player.mesh);
+          }
+          // has spawned
+          if(this.w.player.isdead && !details.isdead) {
+            this.c.scene.add(this.w.player.mesh);
+          }
+          this.w.player.isdead = details.isdead;
+
           let difX = this.w.player.position.x - details.position[0];
           let difY = this.w.player.position.y - details.position[1];
           let difZ = this.w.player.position.z - details.position[2];

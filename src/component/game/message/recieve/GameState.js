@@ -4,7 +4,6 @@ import Box from '../../entities/Box';
 import Bomb from '../../entities/Bomb';
 
 class GameStateHandler {
-
   constructor(client) {
     this.c = client;
     this.w = client.world;
