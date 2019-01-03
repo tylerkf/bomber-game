@@ -49,8 +49,19 @@ class Client {
     requestAnimationFrame(this.update);
   }
 
+  close() {
+    if(this.ws) {
+      this.ws.onclose = () => {};
+      this.ws.close();
+    }
+    if(this.sender) {
+      this.sender.stop();
+    }
+    cancelAnimationFrame(this.nextAnimationFrame);
+  }
+
   update(time) {
-		requestAnimationFrame(this.update);
+		this.nextAnimationFrame = requestAnimationFrame(this.update);
 
 		this.world.update();
 		this.scene.render();

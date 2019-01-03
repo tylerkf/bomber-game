@@ -39,6 +39,10 @@ class GameContainer extends Component {
 		}, this.canvas, this.addConsoleMessage);
 	}
 
+	componentWillUnmount() {
+		this.client.close();
+  }
+
 	resizeCanvas() {
 		if (this.canvas !== undefined) {
 		  this.canvas.style.width = '100%';
