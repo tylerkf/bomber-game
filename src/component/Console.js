@@ -18,10 +18,15 @@ class Console extends Component {
 class ConsoleMessage extends Component {
   render() {
     let message;
-    if(this.props.from === 'error') {
-      message = <span className='error-message'>{this.props.text}</span>;
-    } else {
-      message = <span><b>{this.props.from}</b> {this.props.text}</span>;
+    switch(this.props.from) {
+      case 'error':
+        message = <span className='error-message'>{this.props.text}</span>;
+        break;
+      case 'Server':
+        message = <b>{this.props.text}</b>;
+        break;
+      default:
+        message = <span><b>{this.props.from}</b> {this.props.text}</span>;
     }
     return (
       <li className='console-message'>

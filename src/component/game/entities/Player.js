@@ -37,6 +37,8 @@ class Player extends Animated {
     this.state = IDLE;
     this.velocity = new THREE.Vector3();
     this.targetVelocity = new THREE.Vector3();
+
+    this.isdead = false;
   }
 
   onCollision(overlapN, overlapV) {
@@ -247,6 +249,8 @@ class Player extends Animated {
     }
 
     this.collider.updateBounds(this.position.x, this.position.y, this.angle);
+
+    this.mesh.visible = !this.isdead;
 
     super.update(delta);
   }

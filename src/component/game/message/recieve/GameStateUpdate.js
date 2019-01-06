@@ -87,7 +87,7 @@ class GameStateUpdateHandler {
           this.w.createExplosion(event.position[0], event.position[1]);
           break;
         default:
-          console.error('Failed to handle server event:' + event.type);
+          break;
       }
     })
   }
@@ -113,6 +113,7 @@ class GameStateUpdateHandler {
     player.setPosition(new THREE.Vector3(details.position[0],details.position[1],details.position[2]));
     player.velocity = new THREE.Vector3(details.velocity[0],details.velocity[1],details.velocity[2]);
     player.state = details.state;
+    player.isdead = details.isdead;
   }
 }
 
