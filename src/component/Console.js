@@ -18,7 +18,8 @@ class Console extends Component {
 class ConsoleMessage extends Component {
   render() {
     let message;
-    switch(this.props.from.toLowerCase()) {
+    let from = this.props.from ? this.props.from.toLowerCase() : '';
+    switch(from) {
       case 'error':
         message = <span className='error-message'>{this.props.text}</span>;
         break;
