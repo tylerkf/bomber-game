@@ -8,7 +8,7 @@ import Scene from './Scene';
 import testWorld from './utilities/Test/testWorld';
 
 class Client {
-  constructor(config, canvas, onConsoleMessage) {
+  constructor(config, canvas, onConsoleMessage, setTitleMessage) {
     this.assets = new AssetLoader();
 
 		this.scene = new Scene(canvas);
@@ -19,7 +19,7 @@ class Client {
     this.username = config.username;
 
     if(config.url && config.username) {
-      onConsoleMessage('Connecting ' + config.username + ' to ' + config.url, 'debug');
+      onConsoleMessage('Connecting to ' + config.url, '');
 
       let query = config.url + '?name=' + config.username;
 
@@ -31,13 +31,12 @@ class Client {
           onConsoleMessage('Connection failed', 'error');
         }
       };
-      this.reciever = new MessageReciever(this, this.ws, onConsoleMessage);
+      this.reciever = new MessageReciever(this, this.ws, onConsoleMessage, setTitleMessage);
       this.sender = new MessageSender(this, this.ws);
 
       this.ws.onopen = () => {
         this.reciever.start();
         this.sender.start();
-        onConsoleMessage('Connected successfully', 'debug');
       }
 
     } else {

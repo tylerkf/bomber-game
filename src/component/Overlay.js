@@ -34,15 +34,11 @@ class Overlay extends Component {
   render() {
     return (
       <div className='overlay'>
-        <h3>Bomber Game Server</h3>
-        <div>
-          <p>Server</p>
-          <input type='text' name='form_url' value={this.state.form_url} onChange={this.onChange} />
-          <input type='button' onClick={this.onLocalButtonClick} value='localhost' />
-          <p>Join as</p>
-          <input type='text' name='form_name' value={this.state.form_name} onChange={this.onChange} />
-          <br /><input type='button' onClick={this.join} value='Join' />
-        </div>
+        <span>Bomber Game Server</span>
+        <input placeholder='Server URL' type='text' name='form_url' value={this.state.form_url} onChange={this.onChange} />
+        <input type='button' onClick={this.onLocalButtonClick} value='localhost' />
+        <input placeholder='Name' type='text' name='form_name' value={this.state.form_name} onChange={this.onChange} />
+        <input type='button' onClick={this.join} value='Join' />
       </div>
     );
   }

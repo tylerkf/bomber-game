@@ -4,9 +4,10 @@ import Box from '../../entities/Box';
 import Bomb from '../../entities/Bomb';
 
 class GameStateUpdateHandler {
-  constructor(client) {
+  constructor(client, setTitleMessage) {
     this.c = client;
     this.w = client.world;
+    this.setTitleMessage = setTitleMessage;
     this.pendingPlayers = [];
 
     this.handle = this.handle.bind(this);
@@ -85,6 +86,9 @@ class GameStateUpdateHandler {
           break;
         case 'explosion':
           this.w.createExplosion(event.position[0], event.position[1]);
+          break;
+        case 'title message':
+          this.setTitleMessage(event.title);
           break;
         default:
           break;

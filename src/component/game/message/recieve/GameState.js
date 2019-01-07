@@ -4,14 +4,13 @@ import Box from '../../entities/Box';
 import Bomb from '../../entities/Bomb';
 
 class GameStateHandler {
-  constructor(client) {
+  constructor(client, setTitleMessage) {
     this.c = client;
     this.w = client.world;
+    this.setTitleMessage = setTitleMessage;
   }
 
   handle(message) {
-    this.c.onConsoleMessage('Attempting to load game state from server', 'debug');
-
     message.players.forEach(details => {
       if(details.name === this.c.username) {
         return;
@@ -30,7 +29,7 @@ class GameStateHandler {
       this._addBomb(entity.tag, entity.object);
     })
 
-    this.c.onConsoleMessage('Game state loaded successfully', 'debug');
+    this.setTitleMessage(message.currentTitle);
   }
 
   _addBomb(tag, details) {

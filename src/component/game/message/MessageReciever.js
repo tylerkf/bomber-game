@@ -4,14 +4,15 @@ import ConsoleMessageHandler from './recieve/ConsoleMessage';
 
 class MessageReciever {
 
-  constructor(client, ws, onConsoleMessage) {
+  constructor(client, ws, onConsoleMessage, setTitleMessage) {
     this.ws = ws;
     this.handlers = {};
-    this.handlers['game state'] = new GameStateHandler(client);
-    this.handlers['game state update'] = new GameStateUpdateHandler(client);
+    this.handlers['game state'] = new GameStateHandler(client, setTitleMessage);
+    this.handlers['game state update'] = new GameStateUpdateHandler(client, setTitleMessage);
     this.handlers['console message'] = new ConsoleMessageHandler(onConsoleMessage);
 
     this.onConsoleMessage = onConsoleMessage;
+    this.setTitleMessage = setTitleMessage;
 
     this.start = this.start.bind(this);
   }

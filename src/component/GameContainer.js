@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import Client from './game/Client';
 import Console from './Console'
+import TitleMessage from './TitleMessage';
 
 class GameContainer extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			messages: []
+			messages: [],
+			titleMessage: ''
 		};
 
 		this.resizeCanvas = this.resizeCanvas.bind(this);
 		this.addConsoleMessage = this.addConsoleMessage.bind(this);
+		this.setTitleMessage = this.setTitleMessage.bind(this);
 	}
 
 	addConsoleMessage(text, from) {
@@ -26,6 +29,12 @@ class GameContainer extends Component {
     });
   }
 
+	setTitleMessage(message) {
+		this.setState({
+			titleMessage: message
+		});
+	}
+
 	componentDidMount() {
 		this.canvas = document.createElement('canvas');
 		this.sceneContainer.appendChild(this.canvas);
@@ -36,7 +45,7 @@ class GameContainer extends Component {
 		this.client = new Client({
 			url: this.props.serverUrl,
 			username: this.props.username
-		}, this.canvas, this.addConsoleMessage);
+		}, this.canvas, this.addConsoleMessage, this.setTitleMessage);
 	}
 
 	componentWillUnmount() {
@@ -56,6 +65,7 @@ class GameContainer extends Component {
 		return (
 			<React.Fragment>
 				<Console messages={this.state.messages} />
+				<TitleMessage message={this.state.titleMessage} />
 				<div ref={element => this.sceneContainer = element} />
 			</React.Fragment>
 		);
