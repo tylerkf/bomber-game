@@ -18,15 +18,8 @@ class GameStateUpdateHandler {
 
       if(details.name === this.c.username) {
         if(typeof this.w.player !== 'undefined') {
-          // has died
-          if(!this.w.player.isdead && details.isdead) {
-            this.c.scene.remove(this.w.player.mesh);
-          }
-          // has spawned
-          if(this.w.player.isdead && !details.isdead) {
-            this.c.scene.add(this.w.player.mesh);
-          }
           this.w.player.isdead = details.isdead;
+          this.w.player.frozen = details.frozen;
 
           let difX = this.w.player.position.x - details.position[0];
           let difY = this.w.player.position.y - details.position[1];
@@ -35,12 +28,11 @@ class GameStateUpdateHandler {
             this._updatePlayer(this.w.player, details);
           }
         }
-        return;
-      }
-
-      let player = this.w.players.find(p => p.name === details.name);
-      if(player) {
-        this._updatePlayer(player, details);
+      } else {
+        let player = this.w.players.find(p => p.name === details.name);
+        if(player) {
+          this._updatePlayer(player, details);
+        }
       }
 
     });
@@ -118,6 +110,7 @@ class GameStateUpdateHandler {
     player.velocity = new THREE.Vector3(details.velocity[0],details.velocity[1],details.velocity[2]);
     player.state = details.state;
     player.isdead = details.isdead;
+    player.frozen = details.frozen;
   }
 }
 

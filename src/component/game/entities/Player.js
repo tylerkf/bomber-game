@@ -39,6 +39,7 @@ class Player extends Animated {
     this.targetVelocity = new THREE.Vector3();
 
     this.isdead = false;
+    this.frozen = false;
   }
 
   onCollision(overlapN, overlapV) {
@@ -57,6 +58,10 @@ class Player extends Animated {
   }
 
 	onAction(action, stop) {
+    if(this.frozen) {
+      return;
+    }
+
     if (!stop) {
       switch (action) {
         case 'walkForwards':
