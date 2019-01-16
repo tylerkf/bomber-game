@@ -27,16 +27,15 @@ class Overlay extends Component {
 
   onLocalButtonClick() {
     this.setState({
-      form_url: 'ws://localhost:3001'
+      form_url: 'ws://' + window.location.hostname + ':3001'
     });
   }
 
   render() {
     return (
       <div className='overlay'>
-        <span>Bomber Game Server</span>
         <input placeholder='Server URL' type='text' name='form_url' value={this.state.form_url} onChange={this.onChange} />
-        <input type='button' onClick={this.onLocalButtonClick} value='localhost' />
+        <input type='button' onClick={this.onLocalButtonClick} value='default' />
         <input placeholder='Name' type='text' name='form_name' value={this.state.form_name} onChange={this.onChange} />
         <input type='button' onClick={this.join} value='Join' />
       </div>
